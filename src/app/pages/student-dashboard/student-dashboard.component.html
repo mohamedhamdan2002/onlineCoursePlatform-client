@@ -1,0 +1,26 @@
+<div class="py-12 bg-gray-300">
+  <div class="mx-auto max-w-[1200px]">
+    <h1 class="text-4xl font-extrabold">My Learning Dashboard</h1>
+    <p class="text-xl mt-1 text-gray-500">Track your progress and continue your learning journey</p>
+  </div>
+</div>
+<div class="mx-auto max-w-[1200px]">
+  <app-learning-stats class="mt-8" />
+  
+  <div class="my-8">
+    <h1 class="text-3xl font-bold mb-4">My Courses</h1>
+    <div class="responsive-grid">
+      @for(course of courses; track course.id) {
+        <app-course-card [course]="course">
+          <div class="mb-2">
+            <div class="flex justify-between">
+              <span class="text-sm text-gray-300">Progress</span>
+              <span class="text-sm">45%</span>
+            </div>
+            <mat-progress-bar mode="determinate" value="45"></mat-progress-bar>
+          </div>
+        </app-course-card>
+      }
+    </div>
+  </div>
+</div>
