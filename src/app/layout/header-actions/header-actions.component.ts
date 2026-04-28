@@ -6,6 +6,8 @@ import { MatIcon } from '@angular/material/icon';
 import { MatBadge } from '@angular/material/badge';
 import { RouterLink } from '@angular/router';
 import { CourseStore } from '../../core/stores/course.store';
+import { AuthStore } from '../../core/stores/auth.store';
+import { MatMenuModule } from '@angular/material/menu';
 @Component({
   selector: 'app-header-actions',
   imports: [
@@ -13,7 +15,8 @@ import { CourseStore } from '../../core/stores/course.store';
     MatIconButton,
     MatIcon,
     MatBadge,
-    RouterLink
+    RouterLink,
+    MatMenuModule
   ],
   templateUrl: './header-actions.component.html',
   styleUrl: './header-actions.component.scss',
@@ -21,10 +24,14 @@ import { CourseStore } from '../../core/stores/course.store';
 export class HeaderActionsComponent {
   readonly dialog = inject(MatDialog);
   readonly store = inject(CourseStore);
+  readonly authStore = inject(AuthStore);
   onSignInBtnClick() {
     const dialogRef = this.dialog.open(LoginComponent, {
       disableClose: true
     });
+  }
 
+  onLogoutBtnClick() {
+    this.authStore.logout();
   }
 }

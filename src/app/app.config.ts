@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, inject, provideAppInitializer, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -7,6 +7,7 @@ import { provideHotToastConfig } from '@ngxpert/hot-toast';
 import { loadingInterceptor } from './core/interceptors/loading.interceptor';
 import { errorHandlerInterceptor } from './core/interceptors/error-handler.interceptor';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
+import { AuthStore } from './core/stores/auth.store';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
@@ -19,5 +20,9 @@ export const appConfig: ApplicationConfig = {
         errorHandlerInterceptor
       ])
     ),
+    provideAppInitializer(() => {
+      const authStore = inject(AuthStore);
+      authStore.initAuth();
+    })
   ]
 };

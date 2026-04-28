@@ -1,35 +1,59 @@
-import { Component, inject, model } from '@angular/core';
+import { Component, effect, inject, model, signal } from '@angular/core';
 import { MaterialModule } from '../../../shared/material.module';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Login } from '../../../core/models/auth/login';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RegisterComponent } from '../register/register.component';
 import { PasswordInputComponent } from '../../../shared/components/password-input/password-input.component';
-import { AuthService } from '../../../core/services/auth.service';
+import { AuthStore } from '../../../core/stores/auth.store';
 
 @Component({
   selector: 'app-login',
   imports: [
     MaterialModule,
-    FormsModule,
-    PasswordInputComponent
+    PasswordInputComponent,
+    ReactiveFormsModule
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-  readonly dialogRef = inject(MatDialogRef<LoginComponent>);
-  readonly model = model<Login>({email: '', password: ''});
-  readonly authService = inject(AuthService);
-  readonly dialog = inject(MatDialog);
-  onRegisterBtnClick() {
-    const dialogRef = this.dialog.open(RegisterComponent, {
-      disableClose: true
+  private dialogRef = inject(MatDialogRef<LoginComponent>);
+  private dialog = inject(MatDialog);
+  private fb = inject(FormBuilder);
+  readonly store = inject(AuthStore);
+  form = this.fb.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(6)]],
+  });
+
+  constructor() {
+    effect(() => {
+      console.log(this.store.isAuthenticated());
+      console.log(this.store.token());
+      console.log(!!this.store.token());
+
+      if (this.store.isAuthenticated()) {
+        this.dialogRef.close();
+      }
     });
   }
 
-  onLoginBtnClick() {
-    console.log(this.model());
+  get email() { return this.form.get('email'); }
+  get password() { return this.form.get('password'); }
 
+  onLoginBtnClick() {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+    this.store.login(this.form.value as Login);
+  }
+
+  onCancelBtnClick() { this.dialogRef.close(); }
+
+  onRegisterBtnClick() {
+    this.dialog.open(RegisterComponent, { disableClose: true });
+    this.dialogRef.close();
   }
 }

@@ -1,25 +1,38 @@
-
-<form>
-<h2 mat-dialog-title class="text-center">Sign In</h2>
-<mat-dialog-content>
-  <p class="mb-4 text-center">we missed you</p>
+<form [formGroup]="form">
+  <h2 mat-dialog-title class="text-center">Sign In</h2>
+  <mat-dialog-content>
+    <p class="mb-4 text-center">We missed you</p>
 
     <mat-form-field class="w-full">
       <mat-label>Email</mat-label>
-      <input matInput [(ngModel)]="model().email" name="email" />
+      <input matInput formControlName="email" type="email" />
+      @if (email?.hasError('required') && email?.touched) {
+        <mat-error>Email is required</mat-error>
+      }
+      @if (email?.hasError('email') && email?.touched) {
+        <mat-error>Enter a valid email</mat-error>
+      }
     </mat-form-field>
-    <!-- <mat-form-field class="w-full">
-    <mat-label>Password</mat-label>
-    <input matInput [(ngModel)]="model().password" />
-  </mat-form-field> -->
-  <app-password-input [style]="'w-full'" [label]="'password'" (inputValue)="model().password=$event"/>
-  <div class="flex gap-2">
-    <p>if you new student?</p>
-    <a (click)="onRegisterBtnClick()">register</a>
-  </div>
-</mat-dialog-content>
-<mat-dialog-actions>
-  <button matButton (click)="dialogRef.close()">Cancel</button>
-  <button matButton (click)="onLoginBtnClick()"  cdkFocusInitial>Login</button>
-</mat-dialog-actions>
+
+    <app-password-input
+      [style]="'w-full'"
+      [label]="'Password'"
+      (inputValue)="form.get('password')?.setValue($event)" />
+    @if (password?.hasError('required') && password?.touched) {
+      <p class="text-red-500 text-xs -mt-3 mb-2">Password is required</p>
+    }
+    @if (password?.hasError('minlength') && password?.touched) {
+      <p class="text-red-500 text-xs -mt-3 mb-2">Minimum 6 characters</p>
+    }
+
+    <div class="flex gap-2 mt-2">
+      <p>New student?</p>
+      <a class="cursor-pointer text-blue-500" (click)="onRegisterBtnClick()">Register</a>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button matButton (click)="onCancelBtnClick()">Cancel</button>
+    <button matButton [disabled]="form.invalid && form.touched" (click)="onLoginBtnClick()" cdkFocusInitial>Login</button>
+  </mat-dialog-actions>
 </form>

@@ -2,10 +2,33 @@
   <button matIconButton routerLink="/wishlist" [matBadge]="store.wishlistCount()" [matBadgeHidden]="store.wishlistCount() === 0">
     <mat-icon>favorite</mat-icon>
   </button>
-  <button matButton (click)="onSignInBtnClick()">
-    sign In
-  </button>
-  <button matButton="filled">
-    Get Started
-  </button>
+  @if(!authStore.isAuthenticated()) {
+    <button matButton (click)="onSignInBtnClick()">
+      sign In
+    </button>
+    <button matButton="filled">
+      Get Started
+    </button>
+  } @else {
+    <button matIconButton>
+      <mat-icon>notifications</mat-icon>
+    </button>
+    <button matIconButton [matMenuTriggerFor]="menu">
+      <mat-icon>person</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>dialpad</mat-icon>
+        <span>Redial</span>
+      </button>
+      <button mat-menu-item disabled>
+        <mat-icon>voicemail</mat-icon>
+        <span>Check voice mail</span>
+      </button>
+      <button mat-menu-item (click)="onLogoutBtnClick()">
+        <mat-icon>subdirectory_arrow_left</mat-icon>
+        <span>Logout</span>
+      </button>
+    </mat-menu>
+  }
 </div>
