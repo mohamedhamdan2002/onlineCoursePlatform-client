@@ -1,0 +1,39 @@
+
+<form>
+<h2 mat-dialog-title class="text-center">Register</h2>
+<mat-dialog-content>
+  <p class="mb-4 text-center">You are Welcome</p>
+  <div class="flex gap-4 w-full">
+      <mat-form-field class="flex-1" >
+    <mat-label>First Name</mat-label>
+    <input matInput [(ngModel)]="model().firstName" name="firstName"/>
+  </mat-form-field>
+  <mat-form-field class="flex-1">
+    <mat-label>Last Name</mat-label>
+    <input matInput [(ngModel)]="model().lastName" name="lastName" />
+  </mat-form-field>
+  </div>
+  <mat-form-field class="w-full">
+    <mat-label>Email</mat-label>
+    <input matInput [(ngModel)]="model().email" name="email" />
+  </mat-form-field>
+  <!-- <mat-form-field class="w-full">
+    <mat-label>Password</mat-label>
+    <input matInput [(ngModel)]="model().password" />
+  </mat-form-field> -->
+  <app-password-input [style]="'w-full'" [label]="'password'" (inputValue)="model().password=$event"/>
+  <app-password-input [style]="'w-full'" [label]="'Confirm Password'" (inputValue)="confirmPassword=$event"/>
+    <!-- <mat-form-field class="w-full">
+    <mat-label>Confirm Password</mat-label>
+    <input matInput [(ngModel)]="model().password" />
+  </mat-form-field> -->
+  <div class="flex gap-2">
+    <p>if you have account click here to </p>
+    <a href="">login</a>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button matButton (click)="dialogRef.close()">Cancel</button>
+  <button matButton (click)="onSubmit()">Register</button>
+</mat-dialog-actions>
+</form>
