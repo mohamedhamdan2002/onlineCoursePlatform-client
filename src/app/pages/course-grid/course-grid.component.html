@@ -1,0 +1,44 @@
+<div class="bg-sky-200">
+  <div class="max-w-[1200px] mx-auto py-8">
+    <h1 class="text-4xl font-medium mb-4">Explore Courses</h1>
+    <P class="text-xl mb-4 text-gray-700 font-light">Choose From 8+ online courses with new additions every month</P>
+  </div>
+</div>
+<div class="max-w-[1200px] mx-auto pt-4 flex items-center gap-4">
+    <!-- Search Input -->
+  <mat-form-field appearance="outline" class="flex-1">
+    <input matInput placeholder="search for courses..." />
+    <mat-icon matPrefix>search</mat-icon>
+  </mat-form-field>
+
+  <!-- Sort Select -->
+  <mat-form-field >
+    <mat-label>Sort By</mat-label>
+    <mat-select>
+      <mat-option value="name">Most Popular</mat-option>
+      <mat-option value="date">Highest Rated</mat-option>
+      <mat-option value="price">Price: Low to High</mat-option>
+      <mat-option value="price">Price: High to Low</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div class="max-w-[1200px] mx-auto py-2 flex gap-6">
+  <app-side-bar />
+  <div>
+    <span class="text-gray-400">showing {{store.courses().pageItems?.length }} of {{store.courses().totalCount }} courses</span>
+    <div class="mt-5 grid  gap-7 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+      @for(course of store.courses().pageItems; track course.id) {
+        <app-course-card [course]="course"/>
+      }
+    </div>
+    <div class="my-5 flex items-center justify-center">
+      <mat-paginator
+        (page)="onPageChange($event)"
+        [length]="store.courses().totalPages"
+        [pageSize]="store.courses().pageSize"
+        [pageIndex]="store.courses().pageNumber - 1"
+        [pageSizeOptions]="[5, 10, 15]"
+        ></mat-paginator>
+    </div>
+  </div>
+</div>
