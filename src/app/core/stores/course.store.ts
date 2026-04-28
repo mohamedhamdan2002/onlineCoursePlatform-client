@@ -1,12 +1,12 @@
 import { computed, effect, inject } from "@angular/core";
-import { Category, Course } from "./models/course";
 import { patchState, signalMethod, signalStore, withComputed, withHooks, withMethods, withState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { CategoryService } from "../../core/services/category.service";
 import { pipe, switchMap, tap } from "rxjs";
 import { CourseService } from "../../core/services/course.service";
-import { CoursePageList } from "./models/course-page-list";
 import { ToasterService } from "../../core/services/toaster.service";
+import { Category, Course } from "../models/courses/course";
+import { CoursePageList } from "../models/courses/course-page-list";
 export interface CourseState {
   categories: Category[],
   courses: CoursePageList;

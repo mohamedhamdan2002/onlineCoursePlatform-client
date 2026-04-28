@@ -6,8 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { SideBarComponent } from '../../layout/side-bar/side-bar.component';
 import { CourseCardComponent } from "../../shared/components/course-card/course-card.component";
-import { CourseStore } from '../../features/courses/course.store';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { CourseStore } from '../../core/stores/course.store';
 @Component({
   selector: 'app-course-grid',
   imports: [

@@ -2,8 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, input, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatListModule, MatSelectionListChange } from '@angular/material/list'
-import {  Category } from '../../../features/courses/models/course';
-import { CourseStore } from '../../../features/courses/course.store';
+import { CourseStore } from '../../../core/stores/course.store';
 @Component({
   selector: 'app-filter-list-item',
   imports: [

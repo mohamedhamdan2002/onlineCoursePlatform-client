@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
-import { CoursePageList } from "../../features/courses/models/course-page-list";
-import { Course } from "../../features/courses/models/course";
+import { CoursePageList } from "../models/courses/course-page-list";
+import { Course } from "../models/courses/course";
 
 @Injectable({
   providedIn: 'root'

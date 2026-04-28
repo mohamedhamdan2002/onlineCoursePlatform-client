@@ -1,8 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './layout/header/header.component';
-import { CourseStore } from './features/courses/course.store';
 import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loading-spinner.component';
+import { CourseStore } from './core/stores/course.store';
 
 @Component({
   selector: 'app-root',

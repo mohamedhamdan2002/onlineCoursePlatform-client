@@ -3,8 +3,8 @@ import { MatButton } from '@angular/material/button';
 import {MatAccordion, MatExpansionModule} from '@angular/material/expansion';
 import { MatIcon } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { Course } from '../../../features/courses/models/course';
 import { CourseSectionComponent } from '../course-section/course-section.component';
+import { Course } from '../../../core/models/courses/course';
 @Component({
   selector: 'app-course-curriculum',
   imports: [

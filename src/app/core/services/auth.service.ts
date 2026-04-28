@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Login } from '../../features/auth/models/login';
-import { AuthModel } from '../../features/auth/models/AuthModel';
-import { Register } from '../../features/auth/models/Register';
+import { Login } from '../models/auth/login';
+import { AuthModel } from '../models/auth/AuthModel';
+import { Register } from '../models/auth/Register';
 
 @Injectable({
   providedIn: 'root',

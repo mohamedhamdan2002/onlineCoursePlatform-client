@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { LearningStatsComponent } from './learning-stats/learning-stats.component';
 import { CourseCardComponent } from "../../shared/components/course-card/course-card.component";
-import { Course } from '../../features/courses/models/course';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { Course } from '../../core/models/courses/course';
 @Component({
   selector: 'app-student-dashboard',
   imports: [

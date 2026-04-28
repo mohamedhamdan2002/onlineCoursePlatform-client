@@ -3,10 +3,10 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIcon } from '@angular/material/icon';
 import { MatDivider, MatListModule } from '@angular/material/list';
 import { MatSidenav, MatSidenavContainer, MatSidenavContent } from '@angular/material/sidenav';
-import { CourseStore } from '../../../features/courses/course.store';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { CourseStore } from '../../../core/stores/course.store';
 @Component({
   selector: 'app-course-content',
   imports: [

@@ -2,7 +2,7 @@ import { Component, inject, model, signal } from '@angular/core';
 import { MaterialModule } from '../../../shared/material.module';
 import { FormsModule } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { Register } from '../models/Register';
+import { Register } from '../../../core/models/auth/Register';
 import { PasswordInputComponent } from '../../../shared/components/password-input/password-input.component';
 import { AuthService } from '../../../core/services/auth.service';
 @Component({

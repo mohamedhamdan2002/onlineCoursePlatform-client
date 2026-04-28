@@ -1,5 +1,4 @@
 import { Component, effect, inject, input, OnInit, signal } from '@angular/core';
-import { CourseStore } from '../../features/courses/course.store';
 import { MatIcon } from '@angular/material/icon';
 import { MatDivider } from '@angular/material/divider';
 import { MatButton } from '@angular/material/button';
@@ -8,6 +7,7 @@ import { CourseOverviewComponent } from './course-overview/course-overview.compo
 import { CourseCurriculumComponent } from './course-curriculum/course-curriculum.component';
 import { CourseReviewsComponent } from './course-reviews/course-reviews.component';
 import { RouterLink } from "@angular/router";
+import { CourseStore } from '../../core/stores/course.store';
 @Component({
   selector: 'app-view-course-details',
   imports: [

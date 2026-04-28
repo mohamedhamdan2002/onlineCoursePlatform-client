@@ -1,7 +1,7 @@
 import { Component, inject, model } from '@angular/core';
 import { MaterialModule } from '../../../shared/material.module';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Login } from '../models/login';
+import { Login } from '../../../core/models/auth/login';
 import { FormsModule } from '@angular/forms';
 import { RegisterComponent } from '../register/register.component';
 import { PasswordInputComponent } from '../../../shared/components/password-input/password-input.component';
