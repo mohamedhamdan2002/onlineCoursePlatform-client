@@ -1,0 +1,15 @@
+<div class="flex items-start gap-4 p-4 border border-gray-300 rounded-md">
+  <img src="https://i.sstatic.net/l60Hf.png" alt="Sara Johnson" class="w-10 h-10 rounded-full" />
+  <div>
+    <div class="text-lg font-semibold">
+      John Smith
+    </div>
+    <div class="flex items-center mb-1">
+      <app-star-rating [rating]="5"/>
+      <div class="text-sm text-gray-500">{{ reviewDate  | date:'MMM d, yyyy' }}</div>
+    </div>
+    <div class="text-sm text-gray-500">
+      Absolutely fantastic course! Sarah is an amazing instructor who explains complex concepts in a simple way. Highly recommended!
+    </div>
+  </div>
+</div>

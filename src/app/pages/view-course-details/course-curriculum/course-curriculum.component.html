@@ -1,0 +1,75 @@
+<div class="my-10">
+  <div class="flex justify-between items-center mb-5">
+    <h1 class="text-2xl font-bold">Course Curriculum</h1>
+    <span class="text-gray-500">256 lectures • 42 hours</span>
+    <button matButton (click)="changeAccordionStatus()">{{ isExpanded() ? 'Collapse All' : 'Expand All' }}</button>
+  </div>
+  <mat-accordion class="example-headers-align" multi>
+    @for(section of course().sections; track section.id) {
+      <app-course-section [section]="section" />
+    }
+    <!-- <mat-expansion-panel class="!mb-4">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Getting Started </mat-panel-title>
+        <mat-panel-description>
+          12 Lectures . 1h 30m
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-nav-list>
+        <a mat-list-item>
+          <mat-icon matListItemIcon>play_circle_outline</mat-icon>
+          <span matListItemTitle>Welcome to the Course</span>
+          <div matListItemMeta>
+            5:23
+          </div>
+        </a>
+        <a mat-list-item>
+          <mat-icon matListItemIcon>play_circle_outline</mat-icon>
+          <span matListItemTitle>Welcome to the Course</span>
+          <div matListItemMeta>
+            5:23
+          </div>
+        </a>
+        <a mat-list-item>
+          <mat-icon matListItemIcon>play_circle_outline</mat-icon>
+          <span matListItemTitle>Welcome to the Course</span>
+          <div matListItemMeta>
+            5:23
+          </div>
+        </a>
+      </mat-nav-list>
+    </mat-expansion-panel>
+    <mat-expansion-panel class="!mb-4">
+      <mat-expansion-panel-header>
+        <mat-panel-title> HTML Fundamentals </mat-panel-title>
+        <mat-panel-description>
+          24 lectures • 3h 45m
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+    <mat-expansion-panel class="!mb-4">
+      <mat-expansion-panel-header>
+        <mat-panel-title> CSS Mastery </mat-panel-title>
+        <mat-panel-description>
+          32 lectures • 5h 20m
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+    <mat-expansion-panel class="!mb-4">
+      <mat-expansion-panel-header>
+        <mat-panel-title> JavaScript Essentials </mat-panel-title>
+        <mat-panel-description>
+          45 lectures • 8h 15m
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title> React.js Development </mat-panel-title>
+        <mat-panel-description>
+          38 lectures • 7h 30m
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel> -->
+  </mat-accordion>
+</div>

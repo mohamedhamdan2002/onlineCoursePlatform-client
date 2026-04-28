@@ -1,0 +1,72 @@
+<div class="bg-slate-900 h-[70vh]">
+  <div class="max-w-[1200px] mx-auto py-10 text-white flex justify-between">
+    <div>
+      <h1 class="text-4xl font-bold my-4">{{ store.selectedCourse()?.title }}</h1>
+      <P class="text-gray-300 mb-4">Master web development from scratch with HTML, CSS, JavaScript, React, Node.js, and more</P>
+      <div class="flex text-sm gap-5 my-4">
+        <div class="flex items-center">
+          <mat-icon>star</mat-icon>
+          <span>5.5 (15,568)</span>
+        </div>
+        <div class="flex items-center">
+          <mat-icon>supervisor_account</mat-icon>
+          <span>{{ store.selectedCourse()?.studentsCount }}</span>
+        </div>
+        <div class="flex items-center">
+          <mat-icon>equalizer</mat-icon>
+          <span>{{ store.selectedCourse()?.level }}</span>
+        </div>
+      </div>
+      <div class="flex gap-4 items-center">
+        <div>
+          <img class="w-10 h-10 border rounded-full" src="https://i.sstatic.net/l60Hf.png" alt="Sara Johnson">
+        </div>
+        <div class="flex flex-col">
+          <span>Created By</span>
+          <span>{{ store.selectedCourse()?.instructor }}</span>
+        </div>
+      </div>
+      <div class="flex text-sm gap-5 my-4">
+        <div class="flex items-center">
+          <mat-icon>language</mat-icon>
+          <span>English</span>
+        </div>
+        <div class="flex items-center">
+          <mat-icon>access_time</mat-icon>
+          <span>Last updated February 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="w-90 h-[60vh] bg-white shadow-md border border-transparent rounded-lg overflow-hidden cursor-pointer">
+      <div>
+        <video controls>
+          <source src="/course-preview.mp4" type="video/mp4" />
+          your browser does not support the video tag
+        </video>
+      </div>
+      <div class="p-4">
+        <div class="mb-4">
+          <span class="text-3xl font-bold text-purple-500">$89.99</span>
+        </div>
+        <div class="flex flex-col gap-3 mb-4">
+          <button matButton="filled" [routerLink]="['/checkout', courseId()]">Enroll Now</button>
+        <button matButton="outlined" (click)="addOrRemoveFromWishlist()">{{ isInWishlist() === true ? 'Remove From' : 'Add To'}} Wishlist</button>
+        </div>
+        <mat-divider></mat-divider>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="max-w-[1200px] mx-auto my-10 grid grid-cols-3 gap-4">
+  <mat-tab-group class="col-span-2">
+    <mat-tab label="Overview">
+      <app-course-overview />
+    </mat-tab>
+    <mat-tab label="Curriculum">
+      <app-course-curriculum [course]="store.selectedCourse()!"/>
+    </mat-tab>
+    <mat-tab label="Reviews">
+      <app-course-reviews />
+    </mat-tab>
+  </mat-tab-group>
+</div>

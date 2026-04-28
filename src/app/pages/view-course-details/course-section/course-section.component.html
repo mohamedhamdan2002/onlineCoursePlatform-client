@@ -1,0 +1,19 @@
+<mat-expansion-panel class="!mb-4">
+  <mat-expansion-panel-header>
+    <mat-panel-title> {{ section().title }} </mat-panel-title>
+    <mat-panel-description>
+      12 Lectures . 1h 30m
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <mat-nav-list>
+    @for(lecture of section().lectures; track lecture.id) {
+      <a mat-list-item>
+        <mat-icon matListItemIcon>play_circle_outline</mat-icon>
+        <span matListItemTitle>{{ lecture.title }}</span>
+        <div matListItemMeta>
+          5:23
+        </div>
+      </a>
+    }
+  </mat-nav-list>
+</mat-expansion-panel>
