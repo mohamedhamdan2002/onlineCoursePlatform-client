@@ -1,0 +1,6 @@
+<h2>Categories</h2>
+<mat-selection-list [(ngModel)]="selectedCategories" (ngModelChange)="onSelectionChanges()">
+  @for (cat of store.categories(); track cat.id ) {
+    <mat-list-option togglePosition="before" [value]="cat.id">{{ cat.name }}</mat-list-option>
+  }
+</mat-selection-list>

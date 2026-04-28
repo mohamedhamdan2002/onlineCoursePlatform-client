@@ -1,0 +1,35 @@
+<div class="w-70 h-95 shadow-md border border-transparent rounded-lg overflow-hidden cursor-pointer">
+  <div>
+    <img class="w-70 h-40 object-fill" [src]="`http://localhost:5050/${course().imageUrl}`" [alt]="course().title" [routerLink]="['/course', course().id]" />
+  </div>
+  <div class="p-4" [routerLink]="['/course', course().id]">
+    <h2 class="font-medium text-md line-clamp-2 leading-6 min-h-[3rem]">{{ course().title }}</h2>
+    <span class="text-gray-400">{{ course().instructor }}</span>
+    <div class="flex text-sm gap-5 my-2">
+      <div class="flex items-center">
+        <mat-icon>star</mat-icon>
+        <span>{{ course().rating }} ({{ course().reviewsCount | number }})</span>
+      </div>
+      <div class="flex items-center">
+        <mat-icon>supervisor_account</mat-icon>
+        <span>{{ course().studentsCount | number}}</span>
+      </div>
+    </div>
+    <div class="flex text-sm mb-4 gap-5">
+      <div class="flex items-center">
+        <mat-icon>access_time</mat-icon>
+        <span>{{ course().duration }}</span>
+      </div>
+      <div class="flex items-center">
+        <mat-icon>equalizer</mat-icon>
+        <span>{{ course().level }}</span>
+      </div>
+    </div>
+    <ng-content></ng-content>
+    <mat-divider></mat-divider>
+    <div class="flex mt-3 justify-between">
+      <span>{{course().price | currency }}</span>
+      <span>{{ course().level }}</span>
+    </div>
+  </div>
+</div>

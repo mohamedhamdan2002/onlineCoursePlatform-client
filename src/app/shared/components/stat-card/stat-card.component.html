@@ -1,0 +1,9 @@
+<div class="border border-gray-300 rounded p-8">
+  <div class="bg-{{stat().color}}-100 w-fit p-2 border border-{{stat().color}}-400 rounded mb-4 flex">
+    <mat-icon class="!text-{{stat().color}}-400">{{ stat().icon }}</mat-icon>
+  </div>
+  <div class="text-4xl font-bold leading-none">
+    {{ stat().count }}
+  </div>
+  <p class="text-md text-gray-500">{{ stat().text }}</p>
+</div>
