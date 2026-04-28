@@ -1,0 +1,21 @@
+<div class="max-w-[1200px] mx-auto py-6 px-4">
+  @if(store.wishlistCount() > 0 ) {
+    <div class="flex itmes-center justify-between mb-6">
+      <h1 class="text-2xl font-bold">My Wishlist</h1>
+      <span class="text-gray-500 text-xl">{{ store.wishlistCount() }} items</span>
+    </div>
+    <div class="responsive-grid">
+      @for(item of store.wishlistCourses() | keyvalue; track item.key) {
+        <app-course-card [course]="item.value" />
+      }
+    </div>
+    <div class="mt-8 flex justify-center">
+      <button matButton="outlined" class="danger" (click)="store.clearWishlist()">
+        Clear Wishlist
+      </button>
+
+    </div>
+  } @else {
+    <app-empty-wishlist />
+  }
+</div>
