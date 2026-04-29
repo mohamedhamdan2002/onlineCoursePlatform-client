@@ -34,7 +34,6 @@ export class PaypalComponent {
                 'content-Type': 'application/json'
               },
               body: JSON.stringify({
-                userId: "5EE291B3-BFE8-4ECC-9C50-08DE7E1AF89E",
                 courseId: this.courseId()
               })
             })
@@ -48,7 +47,7 @@ export class PaypalComponent {
                 }
                 return order.orderId;
               }),
-            onApprove: (data) => {   
+            onApprove: (data) => {
               console.log(data)
               return fetch('http://localhost:5050/api/payments/capture', {
                 method: 'post',
