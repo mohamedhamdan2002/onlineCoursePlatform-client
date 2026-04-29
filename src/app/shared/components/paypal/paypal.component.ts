@@ -2,8 +2,9 @@ import { Component, inject, input } from '@angular/core';
 import { Router } from '@angular/router';
 import { IPayPalConfig, NgxPayPalModule } from 'ngx-paypal';
 import { PaymentService } from '../../../core/services/payment.service';
-import { first, firstValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { PaymentOrder } from '../../../core/models/courses/payment-order';
+import { environment } from '../../../../environments/environment';
 @Component({
   selector: 'app-paypal',
   imports: [
@@ -28,7 +29,7 @@ export class PaypalComponent {
 
     private initConfig(): void {
       this.payPalConfig = {
-            clientId: 'ATBRkoTTZXi-ePunpCglVSXnO5nrdX7lLiDP5v3Qc07oT4nYgcpobwMJNUGCRKzmHkgReVZmnASx9XJX',
+            clientId: environment.paypalClientId,
             createOrderOnServer: () => firstValueFrom(
               this.paymentService.createOrder(this.courseId())
             )

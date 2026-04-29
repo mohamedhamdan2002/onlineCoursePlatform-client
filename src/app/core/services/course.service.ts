@@ -2,13 +2,12 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { CoursePageList } from "../models/courses/course-page-list";
 import { Course } from "../models/courses/course";
+import { BaseApiService } from "./base-api.service";
 
 @Injectable({
   providedIn: 'root'
 })
-export class CourseService {
-  private http = inject(HttpClient);
-  private baseUrl = 'http://localhost:5050/api'
+export class CourseService extends BaseApiService {
 
   getAllCourses(pageNumber:number = 1, pageSize:number = 10, categoriesIds: string | null = null) {
     let httpParams = new HttpParams();

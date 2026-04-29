@@ -1,19 +1,18 @@
-import { HttpClient } from "@angular/common/http";
-import { inject, Injectable } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { PaymentOrder } from "../models/courses/payment-order";
+import { BaseApiService } from "./base-api.service";
 
 @Injectable({
   providedIn: 'root'
 })
-export class PaymentService {
-  private http = inject(HttpClient);
-  private apiUrl = "http://localhost:5050";
+export class PaymentService extends BaseApiService {
+
 
   createOrder(courseId: string) {
-    return this.http.post<PaymentOrder>(`${this.apiUrl}/api/payments/create`, { courseId });
+    return this.http.post<PaymentOrder>(`${this.baseUrl}/payments/create`, { courseId });
   }
 
   captureOrder(orderId: string, paymentId: string) {
-    return this.http.post(`${this.apiUrl}/api/payments/capture`, { orderId, paymentId });
+    return this.http.post(`${this.baseUrl}/payments/capture`, { orderId, paymentId });
   }
 }
