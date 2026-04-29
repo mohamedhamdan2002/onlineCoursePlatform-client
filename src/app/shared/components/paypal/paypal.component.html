@@ -1,1 +1,10 @@
-<ngx-paypal [config]="payPalConfig"></ngx-paypal>
+@if(!paypalLoaded) {
+  <div class="w-full mb-2 h-14 rounded-lg bg-gray-200 animate-pulse"></div>
+  <div class="w-full mb-2 h-14 rounded-lg bg-gray-200 animate-pulse"></div>
+  <div class="w-full mb-2 h-14 rounded-lg bg-gray-200 animate-pulse"></div>
+}
+<ngx-paypal
+  [config]="payPalConfig"
+  (scriptLoaded)="onPaypalLoaded()"
+  [style.visibility]="paypalLoaded ? 'visible': 'hidden'"
+  ></ngx-paypal>

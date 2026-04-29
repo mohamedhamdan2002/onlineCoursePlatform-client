@@ -1,6 +1,9 @@
 import { Component, inject, input } from '@angular/core';
 import { Router } from '@angular/router';
 import { IPayPalConfig, NgxPayPalModule } from 'ngx-paypal';
+import { PaymentService } from '../../../core/services/payment.service';
+import { first, firstValueFrom } from 'rxjs';
+import { PaymentOrder } from '../../../core/models/courses/payment-order';
 @Component({
   selector: 'app-paypal',
   imports: [
@@ -10,36 +13,26 @@ import { IPayPalConfig, NgxPayPalModule } from 'ngx-paypal';
   styleUrl: './paypal.component.scss',
 })
 export class PaypalComponent {
+  paypalLoaded = false;
   router = inject(Router);
   courseId = input.required<string>();
+  paymentService = inject(PaymentService);
   public payPalConfig?: IPayPalConfig;
-  paymentOrder = {
-    paymentId: '',
-    status: '',
-    orderId: ''
+  paymentOrder = {} as PaymentOrder;
+  onPaypalLoaded() {
+    this.paypalLoaded = true;
   }
-
-    ngOnInit(): void {
-        this.initConfig();
-    }
+  ngOnInit(): void {
+      this.initConfig();
+  }
 
     private initConfig(): void {
       this.payPalConfig = {
             clientId: 'ATBRkoTTZXi-ePunpCglVSXnO5nrdX7lLiDP5v3Qc07oT4nYgcpobwMJNUGCRKzmHkgReVZmnASx9XJX',
-            // for creating orders (transactions) on server see
-            // https://developer.paypal.com/docs/checkout/reference/server-integration/set-up-transaction/
-            createOrderOnServer: (data) => fetch('http://localhost:5050/api/payments/create', {
-              method: 'post',
-              headers: {
-                'content-Type': 'application/json'
-              },
-              body: JSON.stringify({
-                courseId: this.courseId()
-              })
-            })
-              .then((res) => res.json())
-              .then((order) => {
-                console.log(order);
+            createOrderOnServer: () => firstValueFrom(
+              this.paymentService.createOrder(this.courseId())
+            )
+            .then((order) => {
                 this.paymentOrder = {
                   paymentId: order.paymentId,
                   orderId: order.orderId,
@@ -48,33 +41,23 @@ export class PaypalComponent {
                 return order.orderId;
               }),
             onApprove: (data) => {
-              console.log(data)
-              return fetch('http://localhost:5050/api/payments/capture', {
-                method: 'post',
-                headers:  {
-                  'content-Type': "application/json"
-                },
-                body: JSON.stringify({
-                  orderId: data.orderID,
-                  paymentId: this.paymentOrder.paymentId
-                }
-              )}).then((res) => {
-                console.log(res.json());
-                if(res)
+              console.log(data);
+              return firstValueFrom(
+                this.paymentService.captureOrder(
+                  data.orderID,
+                  this.paymentOrder.paymentId
+                )
+              )
+              .then(() => {
                   this.router.navigate(['order-success'])
               });
             },
-            onCancel: (data, actions) => {
-                console.log('OnCancel', data, actions);
+            onCancel: () => {
+              this.router.navigate(['/courses', this.courseId()]);
             },
             onError: err => {
                 console.log('OnError', err);
-
-            },
-            onClick: (data, actions) => {
-                console.log('onClick', data, actions);
-
-            },
+            }
         };
     }
 }
