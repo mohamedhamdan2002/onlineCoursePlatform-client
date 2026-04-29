@@ -6,12 +6,12 @@
 </div>
 <div class="mx-auto max-w-[1200px]">
   <app-learning-stats class="mt-8" />
-  
+
   <div class="my-8">
-    <h1 class="text-3xl font-bold mb-4">My Courses</h1>
+    <h2 class="text-3xl font-bold mb-4">My Courses</h2>
     <div class="responsive-grid">
-      @for(course of courses; track course.id) {
-        <app-course-card [course]="course">
+      @for(enrollment of enrollmentStore.enrollments(); track enrollment.id) {
+        <app-course-card [course]="enrollment.course">
           <div class="mb-2">
             <div class="flex justify-between">
               <span class="text-sm text-gray-300">Progress</span>
@@ -20,6 +20,10 @@
             <mat-progress-bar mode="determinate" value="45"></mat-progress-bar>
           </div>
         </app-course-card>
+      } @empty {
+        <p class="text-center text-gray-500 col-span-full">
+          You have no enrolled courses yet
+        </p>
       }
     </div>
   </div>
