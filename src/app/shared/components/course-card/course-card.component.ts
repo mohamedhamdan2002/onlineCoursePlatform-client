@@ -18,4 +18,5 @@ import { Course } from '../../../core/models/courses/course';
 })
 export class CourseCardComponent {
   course = input.required<Course>();
+  navigateTo = input<string>();
 }

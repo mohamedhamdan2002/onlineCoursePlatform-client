@@ -6,6 +6,6 @@ import { environment } from "../../../environments/environment";
   providedIn: 'root'
 })
 export abstract class BaseApiService {
-  protected baseUrl = environment.apiUrl;
+  protected baseUrl = `${environment.apiUrl}/api`;
   protected http = inject(HttpClient);
 }

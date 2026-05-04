@@ -27,6 +27,10 @@ export const EnrollmentStore = signalStore(
           patchState(store, { enrollments: res })
         })
       )
-    )
+    ),
+    onNewEnrollmentCreated(enrollment: Enrollment) {
+      patchState(store, { enrollments: [...store.enrollments(), enrollment]});
+      toaster.success(`Your Enrollment at course: ${enrollment.course.title} was created`);
+    }
   })),
 )

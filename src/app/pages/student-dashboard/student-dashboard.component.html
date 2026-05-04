@@ -11,7 +11,7 @@
     <h2 class="text-3xl font-bold mb-4">My Courses</h2>
     <div class="responsive-grid">
       @for(enrollment of enrollmentStore.enrollments(); track enrollment.id) {
-        <app-course-card [course]="enrollment.course">
+        <app-course-card [course]="enrollment.course" [navigateTo]="`/course/${enrollment.course.id}/content`">
           <div class="mb-2">
             <div class="flex justify-between">
               <span class="text-sm text-gray-300">Progress</span>

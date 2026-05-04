@@ -1,8 +1,8 @@
 <div class="w-70 h-95 shadow-md border border-transparent rounded-lg overflow-hidden cursor-pointer">
   <div>
-    <img class="w-70 h-40 object-fill" [src]="`http://localhost:5050/${course().imageUrl}`" [alt]="course().title" [routerLink]="['/course', course().id]" />
+    <img class="w-70 h-40 object-fill" [src]="`http://localhost:5050/${course().imageUrl}`" [alt]="course().title" [routerLink]="navigateTo() ?? ['/course', course().id]" />
   </div>
-  <div class="p-4" [routerLink]="['/course', course().id]">
+  <div class="p-4" (click)="$event.stopPropagation()" [routerLink]="navigateTo() ?? ['/course', course().id]">
     <h2 class="font-medium text-md line-clamp-2 leading-6 min-h-[3rem]">{{ course().title }}</h2>
     <span class="text-gray-400">{{ course().instructor }}</span>
     <div class="flex text-sm gap-5 my-2">
@@ -27,9 +27,15 @@
     </div>
     <ng-content></ng-content>
     <mat-divider></mat-divider>
-    <div class="flex mt-3 justify-between">
-      <span>{{course().price | currency }}</span>
-      <span>{{ course().level }}</span>
-    </div>
+    @if(!course().isEnrolled) {
+      <div class="flex mt-3 justify-between">
+        <span>{{course().price | currency }}</span>
+        <span>{{ course().level }}</span>
+      </div>
+    }@else {
+      <div class="mt-1 flex flex-col">
+        <button matButton (click)="$event.stopPropagation()" [routerLink]="`/course/${course().id}/content`">Course Content</button>
+      </div>
+    }
   </div>
 </div>

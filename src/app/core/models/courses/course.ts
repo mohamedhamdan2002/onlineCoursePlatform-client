@@ -15,7 +15,7 @@ export interface Course {
   rating: number;
   reviewsCount: number;
   studentsCount: number;
-
+  isEnrolled: boolean;
   duration: string;     // e.g. "36 hours"
   level: string;        // e.g. "All Levels"
 
