@@ -1,0 +1,44 @@
+<div class="lg:hidden py-4 border-t border-slate-200">
+
+  <!-- Mobile Search -->
+  <mat-form-field appearance="outline" class="w-full mb-4">
+    <mat-icon matPrefix>search</mat-icon>
+
+    <input
+      matInput
+      placeholder="Search for courses..."
+    />
+  </mat-form-field>
+
+  <!-- Mobile Links -->
+  <div class="flex flex-col gap-2">
+
+    <a
+      routerLink="/courses"
+      class="px-4 py-3 rounded-lg hover:bg-slate-100 transition text-slate-700 font-medium"
+      (click)="headerService.closeMobileMenu()"
+    >
+      Courses
+    </a>
+
+    <a
+      routerLink="/student/dashboard"
+      class="px-4 py-3 rounded-lg hover:bg-slate-100 transition text-slate-700 font-medium"
+      (click)="headerService.closeMobileMenu()"
+    >
+      My Learning
+    </a>
+
+    <a
+      routerLink="/instructor/dashboard"
+      class="px-4 py-3 rounded-lg hover:bg-slate-100 transition text-slate-700 font-medium"
+      (click)="headerService.closeMobileMenu()"
+    >
+      Teach
+    </a>
+
+  </div>
+
+</div>
+
+

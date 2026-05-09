@@ -1,10 +1,50 @@
-<mat-toolbar class="w-full py-2">
-  <div class="max-w-[1200px] mx-auto w-full flex item-center justify-between">
-    <div class="flex item-center">
-      <mat-icon>book</mat-icon>
-      <span class="ms-4">Learning Hub</span>
+<header class="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+
+      <!-- Logo -->
+      <a
+        routerLink="/"
+        class="flex items-center gap-3 shrink-0"
+      >
+        <div class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center shadow-md">
+          <mat-icon class="!text-white">menu_book</mat-icon>
+        </div>
+
+        <div class="hidden sm:block">
+          <h2 class="font-bold text-xl text-slate-900 leading-none">
+            LearnHub
+          </h2>
+          <p class="text-xs text-slate-500">
+            Online Learning
+          </p>
+        </div>
+      </a>
+      <!-- Search -->
+      <div class="hidden md:flex flex-1 !h-14 max-w-xl mx-8">
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-icon matPrefix class="!text-slate-400">
+            search
+          </mat-icon>
+
+          <input
+            matInput
+            placeholder="Search for courses..."
+          />
+        </mat-form-field>
+      </div>
+
+      <app-header-links />
+
+      <!-- Right Actions -->
+     <app-header-actions />
+
     </div>
-    <app-header-links/>
-    <app-header-actions/>
+
+    <!-- Mobile Menu -->
+    @if (headerService.isMobileMenuOpen()) {
+      <app-mobile-menu />
+    }
+
   </div>
-</mat-toolbar>
+</header>

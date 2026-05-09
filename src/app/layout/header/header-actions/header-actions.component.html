@@ -1,0 +1,84 @@
+<div class="flex items-center gap-2 md:gap-3">
+  <button matIconButton routerLink="/wishlist" [matBadge]="store.wishlistCount()" [matBadgeHidden]="store.wishlistCount() === 0">
+    <mat-icon>favorite</mat-icon>
+  </button>
+  @if(!authStore.isAuthenticated()) {
+    <button matButton (click)="onSignInBtnClick()">
+        sign In
+    </button>
+    <button matButton="filled">
+      Get Started
+    </button>
+  } @else {
+    <!-- Notification -->
+    <button
+      matIconButton
+      class="hidden md:flex"
+    >
+      <mat-icon>notifications_none</mat-icon>
+    </button>
+
+    <!-- User Menu -->
+    <button
+      mat-button
+      [matMenuTriggerFor]="userMenu"
+      class="!p-1"
+    >
+      <div class="w-9 h-9 rounded-full bg-indigo-600 text-white flex items-center justify-center font-semibold">
+        {{ user()?.name?.charAt(0)?.toUpperCase() }}
+      </div>
+    </button>
+
+    <mat-menu #userMenu="matMenu">
+
+      <div class="px-4 py-3 border-b border-slate-200">
+        <p class="font-semibold text-slate-900">
+          {{ user()?.name }}
+        </p>
+
+        <p class="text-xs text-slate-500">
+          {{ user()?.email }}
+        </p>
+      </div>
+
+      <button
+        mat-menu-item
+        (click)="navigateDashboard()"
+      >
+        <mat-icon>dashboard</mat-icon>
+        <span>Dashboard</span>
+      </button>
+
+      <button mat-menu-item>
+        <mat-icon>settings</mat-icon>
+        <span>Settings</span>
+      </button>
+
+      <mat-divider></mat-divider>
+
+      <button
+        mat-menu-item
+        class="text-red-500"
+        (click)="onLogoutBtnClick()"
+      >
+        <mat-icon class="text-red-500">
+          logout
+        </mat-icon>
+
+        <span>Logout</span>
+      </button>
+
+    </mat-menu>
+
+  }
+  <!-- Mobile Menu Button -->
+  <button
+    mat-icon-button
+    class="lg:!hidden"
+    (click)="headerService.flipMobileMenu()"
+    >
+    <mat-icon>
+      {{ headerService.isMobileMenuOpen() ? 'close' : 'menu' }}
+    </mat-icon>
+  </button>
+</div>
