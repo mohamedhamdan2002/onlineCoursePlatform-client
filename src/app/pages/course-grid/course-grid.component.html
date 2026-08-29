@@ -1,44 +1,76 @@
-<div class="bg-sky-200">
-  <div class="max-w-[1200px] mx-auto py-8">
-    <h1 class="text-4xl font-medium mb-4">Explore Courses</h1>
-    <P class="text-xl mb-4 text-gray-700 font-light">Choose From 8+ online courses with new additions every month</P>
-  </div>
-</div>
-<div class="max-w-[1200px] mx-auto pt-4 flex items-center gap-4">
-    <!-- Search Input -->
-  <mat-form-field appearance="outline" class="flex-1">
-    <input matInput placeholder="search for courses..." />
-    <mat-icon matPrefix>search</mat-icon>
-  </mat-form-field>
+<div class="min-h-screen flex flex-col">
 
-  <!-- Sort Select -->
-  <mat-form-field >
-    <mat-label>Sort By</mat-label>
-    <mat-select>
-      <mat-option value="name">Most Popular</mat-option>
-      <mat-option value="date">Highest Rated</mat-option>
-      <mat-option value="price">Price: Low to High</mat-option>
-      <mat-option value="price">Price: High to Low</mat-option>
-    </mat-select>
-  </mat-form-field>
-</div>
-<div class="max-w-[1200px] mx-auto py-2 flex gap-6">
-  <app-side-bar />
-  <div>
-    <span class="text-gray-400">showing {{store.courses().pageItems?.length }} of {{store.courses().totalCount }} courses</span>
-    <div class="mt-5 grid  gap-7 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-      @for(course of store.courses().pageItems; track course.id) {
-        <app-course-card [course]="course"/>
-      }
-    </div>
-    <div class="my-5 flex items-center justify-center">
-      <mat-paginator
-        (page)="onPageChange($event)"
-        [length]="store.courses().totalPages"
-        [pageSize]="store.courses().pageSize"
-        [pageIndex]="store.courses().pageNumber - 1"
-        [pageSizeOptions]="[5, 10, 15]"
-        ></mat-paginator>
+  <!-- HEADER -->
+  <div class="bg-blue-50 py-12">
+    <div class="max-w-7xl mx-auto px-4">
+      <h1 class="text-3xl font-bold mb-3">Explore Courses</h1>
+      <p class="text-gray-600">
+        Choose from {{ store.courses().totalCount }}+ courses
+      </p>
     </div>
   </div>
+
+  <!-- SEARCH + SORT -->
+  <div class="bg-white border-b !border-slate-200 sticky top-16 z-40">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row gap-4">
+
+      <!-- SEARCH -->
+      <div class="flex-1 relative">
+        <input
+          type="text"
+          placeholder="Search courses..."
+          class="w-full border !border-slate-200 rounded-lg pl-10 p-2"
+          (input)="onSearch($any($event.target).value)"
+        />
+      </div>
+
+      <!-- SORT -->
+      <select
+        class="border !border-slate-200 rounded-lg p-2"
+        (change)="onSorting($any($event.target).value)"
+      >
+        <option value="popular">Most Popular</option>
+        <option value="rating">Highest Rated</option>
+        <option value="price-low">Price Low</option>
+        <option value="price-high">Price High</option>
+      </select>
+
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="max-w-7xl mx-auto px-4 py-8 flex gap-8">
+
+    <!-- SIDEBAR -->
+    <aside class="hidden lg:block w-64">
+      <app-filter-sidebar
+        [filters]="filters()"
+        (filtersChange)="updateFilters($event)">
+      </app-filter-sidebar>
+    </aside>
+
+    <!-- CONTENT -->
+    <div class="flex-1">
+
+      <p class="text-gray-500 mb-4">
+        Showing {{ store.courses().totalCount }} courses
+      </p>
+
+      <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-6">
+
+        @for (course of store.courses().pageItems; track course.id) {
+          <app-course-card [course]="course" />
+        }
+
+      </div>
+
+      <app-paginator
+        [pageSize]="store.courses().pageSize"
+        [totalPages]="store.courses().totalPages"
+        [currentPage]="store.courses().pageNumber"
+        (page)="onPageChange($event)"
+      />
+    </div>
+  </div>
+
 </div>

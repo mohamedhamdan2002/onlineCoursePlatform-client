@@ -1,41 +1,61 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { MatFormField, MatLabel, MatPrefix, MatSuffix } from '@angular/material/form-field';
-import { MatInput } from '@angular/material/input';
-import { MatIcon } from '@angular/material/icon';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatOption, MatSelect } from '@angular/material/select';
-import { SideBarComponent } from '../../layout/side-bar/side-bar.component';
 import { CourseCardComponent } from "../../shared/components/course-card/course-card.component";
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { CourseStore } from '../../core/stores/course.store';
+import { CourseFilter, FilterSidebarComponent } from '../../shared/components/filter-sidebar/filter-sidebar.component';
+import { PaginatorComponent } from '../../shared/components/paginator/paginator.component';
 @Component({
   selector: 'app-course-grid',
   imports: [
-    MatFormField,
-    MatInput,
-    MatIcon,
     FormsModule,
-    MatLabel,
-    MatSelect,
-    MatOption,
-    MatPrefix,
-    SideBarComponent,
     CourseCardComponent,
-    MatPaginator
+    PaginatorComponent,
+    FilterSidebarComponent
 ],
   templateUrl: './course-grid.component.html',
   styleUrl: './course-grid.component.scss',
 })
 export class CourseGridComponent implements OnInit {
   store = inject(CourseStore);
+  filters = computed(() => {
+    return {
+      categories: this.store.categories(),
+      levels: this.store.levels(),
+      priceRange: [10, 1000] as [number, number],
+      minRating: 0
+  }
+  })
+
   ngOnInit(): void {
-    this.store.loadCategories();
+    if(this.store.levels().length == 0) {
+      this.store.loadLevels();
+    }
+    if(this.store.categories().length == 0) {
+      this.store.loadCategories();
+    }
+    this.store.loadCoursePageList();
+
+  }
+
+  onPageChange(page: number) {
+    if(page == this.store.page()) return;
+    this.store.setPage(page);
     this.store.loadCoursePageList();
   }
 
-  onPageChange(event: PageEvent) {
-    this.store.setPage(event.pageIndex + 1);
-    this.store.setPageSize(event.pageSize);
+  showMobileFilters = signal(false);
+  updateFilters(newFilters: CourseFilter) {
+      this.store.setCourseFilters(newFilters);
+      this.store.loadCoursePageList();
+  }
+
+  onSearch(searchValue: string) {
+    this.store.setSearchQuery(searchValue);
+    this.store.loadCoursePageList();
+  }
+
+  onSorting(sortValue: string) {
+    this.store.setSortBy(sortValue);
     this.store.loadCoursePageList();
   }
 
