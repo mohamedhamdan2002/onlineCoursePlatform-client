@@ -1,0 +1,26 @@
+<div class="mt-10 flex justify-center items-center gap-2">
+  <button
+    class="px-3 py-1 border rounded-md disabled:opacity-50"
+    (click)="setPage(currentPage() - 1)"
+    [disabled]="currentPage() === 1">
+    Prev
+  </button>
+
+  @for (page of [].constructor(totalPages()); track $index) {
+    <button
+      class="px-3 py-1 border rounded-md"
+      [class.bg-blue-500]="currentPage() === ($index + 1)"
+      [class.text-white]="currentPage() === ($index + 1)"
+      (click)="setPage($index + 1)">
+      {{ $index + 1 }}
+    </button>
+  }
+
+  <button
+    class="px-3 py-1 border rounded-md disabled:opacity-50"
+    (click)="setPage(currentPage() + 1)"
+    [disabled]="currentPage() === totalPages()">
+    Next
+  </button>
+
+</div>
