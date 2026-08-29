@@ -1,0 +1,109 @@
+<mat-sidenav-container class="dashboard-container">
+  <mat-sidenav class="sidebar" #sideNav mode="side" opened="true">
+        <div class="logo-section">
+          <div class="logo-icon">
+            <mat-icon>menu_book</mat-icon>
+          </div>
+
+          <span class="logo-text">LearnHub</span>
+        </div>
+
+        <nav class="sidebar-nav">
+
+          <button
+            mat-button
+            class="nav-item"
+            routerLink="/instructor/dashboard"
+            routerLinkActive="active"
+            >
+
+            <mat-icon>dashboard</mat-icon>
+            <span>Dashboard</span>
+          </button>
+
+          <button
+            mat-button
+            class="nav-item"
+            routerLink="/instructor/courses"
+            routerLinkActive="active">
+
+            <mat-icon>school</mat-icon>
+            <span>My Courses</span>
+          </button>
+
+          <button
+            mat-button
+            class="nav-item"
+            routerLink="/instructor/analytics"
+            routerLinkActive="active"
+            >
+
+            <mat-icon>bar_chart</mat-icon>
+            <span>Analytics</span>
+          </button>
+
+          <button
+            mat-button
+            class="nav-item"
+            routerLink="/instructor/settings"
+            routerLinkActive="active">
+
+            <mat-icon>settings</mat-icon>
+            <span>Settings</span>
+          </button>
+
+        </nav>
+
+        <div class="profile-section">
+
+          <img
+            src="https://i.pravatar.cc/150?img=1"
+            alt="Instructor">
+
+          <div>
+            <h4>Sarah Johnson</h4>
+            <p>Instructor</p>
+          </div>
+
+        </div>
+  </mat-sidenav>
+  <mat-sidenav-content class="main-content">
+
+        <!-- Header -->
+        <header class="topbar">
+
+          <div class="header-left">
+
+            <button
+              mat-icon-button
+              class="mobile-menu-btn"
+              (click)="sideNav.opened ? sideNav.close() : sideNav.open()">
+
+              <mat-icon>menu</mat-icon>
+            </button>
+
+            <div>
+              <h1>Instructor Dashboard</h1>
+              <p>Manage your courses and track performance</p>
+            </div>
+
+          </div>
+
+          <button
+            mat-stroked-button
+            routerLink="/">
+
+            View as Student
+          </button>
+
+        </header>
+
+        <!-- Content -->
+        <div class="content-wrapper">
+
+          <router-outlet/>
+
+        </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
