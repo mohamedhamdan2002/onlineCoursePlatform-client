@@ -1,5 +1,59 @@
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-  @for(stat of stats; track $index) {
-    <app-stat-card [stat]="stat" />
-  }
+<div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+
+  <!-- Enrolled -->
+  <div class="bg-white shadow-sm border !border-slate-200 rounded-lg p-6">
+    <div class="flex items-center justify-between mb-3">
+      <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+        <mat-icon class="text-blue-600">play_circle</mat-icon>
+      </div>
+    </div>
+
+    <div class="text-3xl font-bold">
+      {{ totalCoursesEnrolled() }}
+    </div>
+    <div class="text-sm text-gray-500">Courses Enrolled</div>
+  </div>
+
+  <!-- Completed -->
+  <div class="bg-white shadow-sm border !border-slate-200 rounded-lg p-6">
+    <div class="flex items-center justify-between mb-3">
+      <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+        <mat-icon class="text-purple-600">workspace_premium</mat-icon>
+      </div>
+    </div>
+
+    <div class="text-3xl font-bold">
+      {{ totalCoursesCompleted() }}
+    </div>
+    <div class="text-sm text-gray-500">Courses Completed</div>
+  </div>
+
+  <!-- Hours -->
+  <div class="bg-white shadow-sm border !border-slate-200 rounded-lg p-6">
+    <div class="flex items-center justify-between mb-3">
+      <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+        <mat-icon class="text-blue-600">schedule</mat-icon>
+      </div>
+    </div>
+
+    <div class="text-3xl font-bold">
+      {{ totalHoursLearned() }}h
+    </div>
+    <div class="text-sm text-gray-500">Hours Learned</div>
+  </div>
+
+  <!-- Progress -->
+  <div class="bg-white shadow-sm border !border-slate-200 rounded-lg p-6">
+    <div class="flex items-center justify-between mb-3">
+      <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+        <mat-icon class="text-purple-600">trending_up</mat-icon>
+      </div>
+    </div>
+
+    <div class="text-3xl font-bold">
+      {{ averageProgress() }}%
+    </div>
+    <div class="text-sm text-gray-500">Average Progress</div>
+  </div>
+
 </div>

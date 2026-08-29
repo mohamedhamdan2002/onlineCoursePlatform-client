@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
-import { StatCard, StatCardComponent } from '../../../shared/components/stat-card/stat-card.component';
+import { Component, input,  } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-learning-stats',
   imports: [
-    StatCardComponent
+    MatIcon
   ],
   templateUrl: './learning-stats.component.html',
   styleUrl: './learning-stats.component.scss',
@@ -13,30 +13,16 @@ import { StatCard, StatCardComponent } from '../../../shared/components/stat-car
   }
 })
 export class LearningStatsComponent {
-  stats: StatCard[] = [
-    {
-      icon: 'play_circle_outline',
-      count: '4',
-      text: 'Courses Enrolled',
-      color: 'green'
-    },
-    {
-      icon: 'check_circle_outline',
-      count: '1',
-      text: 'Courses Completed',
-      color: 'blue'
-    },
-    {
-      icon: 'access_time',
-      count: '156h',
-      text: 'Hours Learned',
-      color: 'green'
-    },
-    {
-      icon: 'timeline',
-      count: '44%',
-      text: 'Average Progress',
-      color: 'indigo'
-    }
-  ]
+  totalCoursesCompleted = input(150);
+  totalCoursesEnrolled  = input(11);
+  totalHoursLearned = input(156);
+  averageProgress = input(90)
+  // averageProgress = computed(() => {
+  //   const list = this.enrolledCourses();
+  //   if (!list.length) return 0;
+
+  //   return Math.round(
+  //     list.reduce((acc, c) => acc + Math.random(), 0) / list.length
+  //   );
+  // });
 }
