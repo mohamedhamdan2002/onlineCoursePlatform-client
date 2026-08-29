@@ -1,72 +1,201 @@
-<div class="bg-slate-900 h-[70vh]">
-  <div class="max-w-[1200px] mx-auto py-10 text-white flex justify-between">
-    <div>
-      <h1 class="text-4xl font-bold my-4">{{ store.selectedCourse()?.title }}</h1>
-      <P class="text-gray-300 mb-4">Master web development from scratch with HTML, CSS, JavaScript, React, Node.js, and more</P>
-      <div class="flex text-sm gap-5 my-4">
-        <div class="flex items-center">
-          <mat-icon>star</mat-icon>
-          <span>5.5 (15,568)</span>
-        </div>
-        <div class="flex items-center">
-          <mat-icon>supervisor_account</mat-icon>
-          <span>{{ store.selectedCourse()?.studentsCount }}</span>
-        </div>
-        <div class="flex items-center">
-          <mat-icon>equalizer</mat-icon>
-          <span>{{ store.selectedCourse()?.level }}</span>
+<div class="min-h-screen flex flex-col bg-slate-50">
+    <!-- Hero -->
+    <section class="bg-gradient-to-r from-slate-900 to-slate-800 text-white">
+      <div class="max-w-7xl mx-auto px-4 py-12">
+        <div class="grid lg:grid-cols-3 gap-8">
+          <!-- Left -->
+          <div class="lg:col-span-2">
+            <div class="flex items-center gap-2 mb-4">
+              <mat-chip>{{ store.selectedCourse()?.category?.name }}</mat-chip>
+              <mat-chip highlighted>Bestseller</mat-chip>
+            </div>
+
+            <h1 class="text-4xl font-bold mb-4">
+              {{ store.selectedCourse()?.title }}
+            </h1>
+
+            <p class="text-lg text-white/80 mb-6">
+              Learn modern development with practical real-world projects.
+            </p>
+
+            <!-- Stats -->
+            <div class="flex flex-wrap gap-6 mb-6 text-sm">
+              <div class="flex items-center gap-1">
+                <mat-icon class="text-yellow-400">star</mat-icon>
+                <span class="font-semibold">
+                  {{ store.selectedCourse()?.rating | number : '1.1-1' }}
+                </span>
+                <span class="text-white/70">
+                  ({{ store.selectedCourse()?.reviewsCount | number }} reviews)
+                </span>
+              </div>
+
+              <div class="flex items-center gap-1">
+                <mat-icon>groups</mat-icon>
+                <span>{{ store.selectedCourse()?.studentsCount | number }} students</span>
+              </div>
+
+              <div class="flex items-center gap-1">
+                <mat-icon>bar_chart</mat-icon>
+                <span>{{ store.selectedCourse()?.level }}</span>
+              </div>
+            </div>
+
+            <!-- Instructor -->
+            <div class="flex items-center gap-3">
+              <img
+                src="https://i.pravatar.cc/150?img=1"
+                alt="Instructor"
+                class="w-12 h-12 rounded-full object-cover"
+              />
+
+              <div>
+                <p class="text-sm text-white/70">Created by</p>
+                <p class="font-semibold">{{ store.selectedCourse()?.instructor }}</p>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap gap-6 mt-6 text-sm text-white/70">
+              <div class="flex items-center gap-1">
+                <mat-icon>language</mat-icon>
+                <span>English</span>
+              </div>
+
+              <div class="flex items-center gap-1">
+                <mat-icon>schedule</mat-icon>
+                <span>{{ store.selectedCourse()?.duration }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Card -->
+          <div>
+            <mat-card class="overflow-hidden sticky top-20">
+              <!-- Image -->
+              <div class="relative aspect-video">
+                <img
+                  [src]="store.selectedCourse()?.imageUrl"
+                  [alt]="store.selectedCourse()?.title"
+                  class="w-full h-full object-cover"
+                />
+
+                <div
+                  class="absolute inset-0 bg-black/30 flex items-center justify-center"
+                >
+                  <button
+                    mat-fab
+                    color="primary"
+                  >
+                    <mat-icon>play_arrow</mat-icon>
+                  </button>
+                </div>
+              </div>
+
+              <mat-card-content class="p-6">
+                <div class="flex items-baseline gap-3 mb-4">
+                  <span class="text-3xl font-bold text-indigo-600">
+                    ${{ store.selectedCourse()?.price }}
+                  </span>
+
+                  <span class="line-through text-gray-400 text-lg">
+                    $199.99
+                  </span>
+                </div>
+
+                @if (!store.selectedCourse()?.isEnrolled) {
+                  <button
+                    mat-flat-button
+                    color="primary"
+                    class="w-full !mb-3"
+                    (click)="onEnrollClick()"
+                  >
+                    Enroll Now
+                  </button>
+
+                  <button
+                    mat-stroked-button
+                    class="w-full"
+                    (click)="addOrRemoveFromWishlist()"
+                  >
+                    {{ isInWishlist() === true ? 'Remove From' : 'Add To'}} Wishlist
+                  </button>
+                } @else {
+                  <div class="space-y-3">
+                    <div class="flex justify-between text-sm">
+                      <span>Course Progress</span>
+                      <span class="font-semibold">
+                        {{ progress() }}%
+                      </span>
+                    </div>
+
+                    <mat-progress-bar
+                      mode="determinate"
+                      [value]="progress()"
+                    />
+
+                    <button
+                      mat-flat-button
+                      color="primary"
+                      class="w-full"
+                    >
+                      Continue Learning
+                    </button>
+                  </div>
+                }
+
+                <!-- Details -->
+                <div class="mt-6 pt-6 border-t space-y-3 text-sm">
+                  <div class="flex items-center gap-2">
+                    <mat-icon>schedule</mat-icon>
+                    <span>{{ store.selectedCourse()?.duration }}</span>
+                  </div>
+
+                  <div class="flex items-center gap-2">
+                    <mat-icon>play_circle</mat-icon>
+                    <span>{{ totalLessons() }} lessons</span>
+                  </div>
+
+                  <div class="flex items-center gap-2">
+                    <mat-icon>workspace_premium</mat-icon>
+                    <span>Certificate of completion</span>
+                  </div>
+
+                  <div class="flex items-center gap-2">
+                    <mat-icon>all_inclusive</mat-icon>
+                    <span>Lifetime access</span>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
         </div>
       </div>
-      <div class="flex gap-4 items-center">
-        <div>
-          <img class="w-10 h-10 border rounded-full" src="https://i.sstatic.net/l60Hf.png" alt="Sara Johnson">
-        </div>
-        <div class="flex flex-col">
-          <span>Created By</span>
-          <span>{{ store.selectedCourse()?.instructor }}</span>
+    </section>
+
+    <!-- Content -->
+    <section class="flex-1 py-12">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="grid lg:grid-cols-3 gap-8">
+          <!-- Left -->
+          <div class="lg:col-span-2">
+            <mat-tab-group>
+              <!-- Overview -->
+              <mat-tab label="Overview">
+                <app-course-overview [course]="store.selectedCourse()" />
+              </mat-tab>
+
+              <!-- Curriculum -->
+              <mat-tab label="Curriculum">
+                <app-course-curriculum [course]="store.selectedCourse()!"/>
+              </mat-tab>
+
+              <!-- Reviews -->
+              <mat-tab label="Reviews">
+                  <app-course-reviews />
+              </mat-tab>
+            </mat-tab-group>
+          </div>
         </div>
       </div>
-      <div class="flex text-sm gap-5 my-4">
-        <div class="flex items-center">
-          <mat-icon>language</mat-icon>
-          <span>English</span>
-        </div>
-        <div class="flex items-center">
-          <mat-icon>access_time</mat-icon>
-          <span>Last updated February 2026</span>
-        </div>
-      </div>
-    </div>
-    <div class="w-90 h-[60vh] bg-white shadow-md border border-transparent rounded-lg overflow-hidden cursor-pointer">
-      <div>
-        <video controls>
-          <source src="/course-preview.mp4" type="video/mp4" />
-          your browser does not support the video tag
-        </video>
-      </div>
-      <div class="p-4">
-        <div class="mb-4">
-          <span class="text-3xl font-bold text-purple-500">$89.99</span>
-        </div>
-        <div class="flex flex-col gap-3 mb-4">
-          <button matButton="filled" (click)="onEnrollClick()">Enroll Now</button>
-        <button matButton="outlined" (click)="addOrRemoveFromWishlist()">{{ isInWishlist() === true ? 'Remove From' : 'Add To'}} Wishlist</button>
-        </div>
-        <mat-divider></mat-divider>
-      </div>
-    </div>
+    </section>
   </div>
-</div>
-<div class="max-w-[1200px] mx-auto my-10 grid grid-cols-3 gap-4">
-  <mat-tab-group class="col-span-2">
-    <mat-tab label="Overview">
-      <app-course-overview />
-    </mat-tab>
-    <mat-tab label="Curriculum">
-      <app-course-curriculum [course]="store.selectedCourse()!"/>
-    </mat-tab>
-    <mat-tab label="Reviews">
-      <app-course-reviews />
-    </mat-tab>
-  </mat-tab-group>
-</div>
