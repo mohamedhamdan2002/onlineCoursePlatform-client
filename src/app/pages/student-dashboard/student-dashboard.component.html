@@ -1,30 +1,139 @@
-<div class="py-12 bg-gray-300">
-  <div class="mx-auto max-w-[1200px]">
-    <h1 class="text-4xl font-extrabold">My Learning Dashboard</h1>
-    <p class="text-xl mt-1 text-gray-500">Track your progress and continue your learning journey</p>
-  </div>
-</div>
-<div class="mx-auto max-w-[1200px]">
-  <app-learning-stats class="mt-8" />
+<div class="min-h-screen flex flex-col">
 
-  <div class="my-8">
-    <h2 class="text-3xl font-bold mb-4">My Courses</h2>
-    <div class="responsive-grid">
-      @for(enrollment of enrollmentStore.enrollments(); track enrollment.id) {
-        <app-course-card [course]="enrollment.course" [navigateTo]="`/course/${enrollment.course.id}/content`">
-          <div class="mb-2">
-            <div class="flex justify-between">
-              <span class="text-sm text-gray-300">Progress</span>
-              <span class="text-sm">45%</span>
-            </div>
-            <mat-progress-bar mode="determinate" value="45"></mat-progress-bar>
-          </div>
-        </app-course-card>
-      } @empty {
-        <p class="text-center text-gray-500 col-span-full">
-          You have no enrolled courses yet
+  <div class="flex-1 bg-gray-50">
+    <div class="bg-gradient-to-br from-blue-50 via-purple-50 to-white py-12">
+      <div class="max-w-7xl mx-auto px-4">
+        <h1 class="text-3xl font-bold mb-2 text-gray-900">
+          My Learning Dashboard
+        </h1>
+
+        <p class="text-gray-600">
+          Track your progress and continue learning
         </p>
-      }
+      </div>
     </div>
+
+
+  <div class="max-w-7xl mx-auto px-4 py-8">
+    <!-- stats -->
+    <app-learning-stats />
+
+    <section class="mb-12">
+
+      <h2 class="text-2xl font-semibold mb-6">Continue Watching</h2>
+
+      <div class="space-y-6">
+
+        @for (course of enrolledCourses().slice(0, 2); track course.id) {
+
+          <div class="bg-white border !border-slate-200 rounded-lg overflow-hidden shadow-sm flex flex-col md:flex-row">
+
+            <!-- Image -->
+            <div class="md:w-72">
+              <img [src]="course.imageUrl" class="w-full h-full object-cover" />
+            </div>
+
+            <!-- Content -->
+            <div class="p-6 flex-1">
+
+              <h3 class="font-semibold text-lg mb-1">
+                {{ course.title }}
+              </h3>
+
+              <p class="text-sm text-gray-500 mb-4">
+                by {{ course.instructor }}
+              </p>
+
+              <!-- Progress -->
+              <div class="mb-4">
+                <div class="flex justify-between text-sm mb-2 text-gray-500">
+                  <!-- <span>{{ course.progress }}%</span> -->
+                  <span>50%</span>
+
+                  <span>{{ course.duration }}h</span>
+
+                </div>
+
+                <mat-progress-bar
+                  mode="determinate"
+                  [value]="50">
+                </mat-progress-bar>
+
+              </div>
+
+              <button class="bg-blue-600 text-white px-4 py-2 rounded">
+                Continue Learning
+              </button>
+
+            </div>
+
+          </div>
+
+        }
+
+      </div>
+
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-semibold mb-6">My Courses</h2>
+      <mat-tab-group>
+
+        <mat-tab label="All">
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+
+            @for (c of all; track c.id) {
+              <app-course-card [course]="c"></app-course-card>
+            }
+
+          </div>
+        </mat-tab>
+
+        <mat-tab label="In Progress">
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+
+              @for (c of enrolledCourses(); track c.id) {
+                <app-course-card [course]="c"></app-course-card>
+              }
+
+            </div>
+          </mat-tab>
+
+          <mat-tab label="Completed">
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+
+              @for (c of completedCourses(); track c.id) {
+                <div class="relative">
+
+                  <app-course-card [course]="c"></app-course-card>
+
+                  <div class="absolute top-2 right-2 bg-green-600 text-white text-xs px-2 py-1 rounded">
+                    Completed
+                  </div>
+
+                </div>
+              }
+
+            </div>
+          </mat-tab>
+
+        </mat-tab-group>
+    </section>
+
+    <section class="mt-12 bg-blue-50 rounded-xl p-8 text-center">
+
+      <h2 class="text-2xl font-semibold mb-3">Ready for More?</h2>
+
+      <p class="text-gray-600 mb-6">
+        Explore new courses and improve your skills
+      </p>
+
+      <button class="bg-blue-600 text-white px-6 py-3 rounded-lg">
+        Browse Courses
+      </button>
+
+    </section>
+
   </div>
+
 </div>
