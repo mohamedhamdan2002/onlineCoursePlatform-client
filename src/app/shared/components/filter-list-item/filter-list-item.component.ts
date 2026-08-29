@@ -1,8 +1,6 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatListModule, MatSelectionListChange } from '@angular/material/list'
-import { CourseStore } from '../../../core/stores/course.store';
+import { MatListModule } from '@angular/material/list'
 @Component({
   selector: 'app-filter-list-item',
   imports: [
@@ -16,11 +14,15 @@ import { CourseStore } from '../../../core/stores/course.store';
   }
 })
 export class FilterListItemComponent {
-  selectedCategories: string[] = [];
-  store = inject(CourseStore);
+  itemValue = input.required<keyof any>();
+  itemName = input.required<keyof any>();
+  items = input<any[]>();
+  selectedItems = output<any[]>();
+  selected: any[] = [];
+
   onSelectionChanges() {
-    this.store.setSelectedCategoriesId(this.selectedCategories);
-    this.store.loadCoursePageList();
+    this.selectedItems.emit(this.selected);
   }
 
 }
+
