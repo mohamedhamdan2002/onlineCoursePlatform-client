@@ -1,0 +1,19 @@
+ .analytics-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:20px;
+      margin-top:24px;
+    }
+
+    .analytics-box{
+      padding:24px;
+      background:#f1f5f9;
+      border-radius:16px;
+      text-align:center;
+    }
+
+    .analytics-box h3{
+      font-size:36px;
+      margin:0 0 10px;
+      color:#2563eb;
+    }
