@@ -1,0 +1,327 @@
+
+<form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
+    <div class="create-course-page">
+
+      <!-- Header -->
+      <div class="top-header">
+      <div class="header-left">
+          <button mat-button (click)="$event.stopPropagation();goBack()">
+          <mat-icon>arrow_back</mat-icon>
+          Back
+          </button>
+
+          <div>
+          <h2>{{ isEditMode ? 'Edit Course' : 'Create New Course' }}</h2>
+          <p>{{ isEditMode ? 'Edit your course content' : 'Build your course step by step' }}</p>
+          </div>
+      </div>
+
+      <div class="header-actions">
+          <div class="completion-box">
+          <span>Completion</span>
+          <strong>{{ completionPercentage() }}%</strong>
+          </div>
+
+          <button mat-stroked-button type="submit" (click)=" $event.stopPropagation();saveDraft()">
+            Save Draft
+          </button>
+
+          <button mat-raised-button color="primary" (click)="$event.stopPropagation(); publishCourse()">
+          {{ isEditMode ? 'Update Course' : 'Publish Course' }}
+          </button>
+      </div>
+      </div>
+
+      <mat-progress-bar
+      mode="determinate"
+      [value]="completionPercentage()">
+      </mat-progress-bar>
+
+      <!-- Tabs -->
+      <mat-tab-group>
+
+      <!-- Basics -->
+      <mat-tab label="Course Basics">
+
+          <mat-card class="section-card">
+          <mat-card-header>
+              <mat-card-title>Course Information</mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content>
+
+              <mat-form-field class="full-width">
+              <mat-label>Course Title</mat-label>
+              <input
+                  matInput
+                  formControlName="title"
+                  placeholder="Complete Angular Course">
+              </mat-form-field>
+
+
+
+
+
+              <div class="grid-3">
+
+              <mat-form-field >
+                  <mat-label>Category</mat-label>
+
+                  <mat-select formControlName="categoryId">
+                    @for(category of store.categories(); track category.id) {
+                        <mat-option
+                          [value]="category.id">
+                          {{ category.name }}
+                      </mat-option>
+                    }
+
+                  </mat-select>
+              </mat-form-field>
+
+              <mat-form-field >
+                  <mat-label>Level</mat-label>
+
+                  <mat-select formControlName="level">
+                  @for(level of store.levels(); track level.value) {
+                        <mat-option
+                          [value]="level.value">
+                          {{ level.name }}
+                      </mat-option>
+                    }
+                  </mat-select>
+              </mat-form-field>
+
+
+              </div>
+              <mat-form-field  class="full-width">
+              <mat-label>Description</mat-label>
+              <textarea
+                  matInput
+                  rows="6"
+                  formControlName="description">
+              </textarea>
+              </mat-form-field>
+              <!-- Thumbnail -->
+              <div class="thumbnail-upload">
+
+              <input
+                  type="file"
+                  hidden
+                  #thumbnailInput
+                  formControlName="image"
+                  (change)="onThumbnailSelected($event)">
+
+
+              <div *ngIf="thumbnailPreview; else uploadBox">
+
+                  <img
+                  [src]="thumbnailPreview"
+                  class="thumbnail-image">
+
+                  <button
+                  mat-mini-fab
+                  color="warn"
+                  class="remove-thumbnail"
+                  (click)="removeThumbnail()">
+                  <mat-icon>close</mat-icon>
+                  </button>
+
+              </div>
+
+              <ng-template #uploadBox>
+
+                  <div
+                  class="upload-box"
+                  (click)="thumbnailInput.click()">
+
+                  <mat-icon>cloud_upload</mat-icon>
+
+                  <h4>Upload Course Thumbnail</h4>
+
+                  <p>PNG or JPG</p>
+
+                  </div>
+
+              </ng-template>
+
+              </div>
+
+          </mat-card-content>
+          </mat-card>
+
+      </mat-tab>
+
+      <!-- Curriculum -->
+      @if(isEditMode) {
+        <mat-tab label="Curriculum">
+
+            <mat-card class="section-card">
+
+            <mat-card-header>
+                <mat-card-title>Course Curriculum</mat-card-title>
+            </mat-card-header>
+
+            <mat-card-content>
+
+                <div
+                class="section-box"
+                *ngFor="let section of sections">
+
+                <!-- Section -->
+                <div class="section-header">
+
+                    <div class="section-title">
+
+                    <mat-icon>drag_indicator</mat-icon>
+
+                    <input
+                        placeholder="Section Title">
+
+                    </div>
+
+                    <button
+                    mat-icon-button
+                    color="warn"
+                    *ngIf="sections.length > 1"
+                    (click)="deleteSection(section.id)">
+
+                    <mat-icon>close</mat-icon>
+
+                    </button>
+
+                </div>
+
+                <!-- Lessons -->
+                <div
+                    class="lesson-item"
+                    *ngFor="let lesson of section.lectures">
+
+                    <mat-icon>
+                    {{ 'video' === 'video' ? 'videocam' : 'article' }}
+                    </mat-icon>
+
+                    <input
+                    placeholder="Lesson title">
+
+                    <!-- <button
+                    *ngIf="'video' === 'video' && !lesson.file"
+                    mat-stroked-button
+                    (click)="videoInput.click()">
+
+                    <mat-icon>upload</mat-icon>
+                    Upload
+
+                    </button> -->
+
+                    <input
+                    hidden
+                    type="file"
+                    #videoInput
+                    accept="video/*"
+                    (change)="onVideoSelected($event, section.id, lesson.id)">
+
+                    <!-- <mat-chip *ngIf="lesson.file">
+                    {{ lesson.file.name }}
+                    </mat-chip> -->
+
+                    <button
+                    mat-icon-button
+                    color="warn"
+                    (click)="deleteLesson(section.id, lesson.id)">
+
+                    <mat-icon>delete</mat-icon>
+
+                    </button>
+
+                </div>
+
+                <!-- Add Lesson Buttons -->
+                <div class="lesson-actions">
+
+                    <button
+                    mat-stroked-button
+                    (click)="addLesson(section.id, 'video')">
+
+                    <mat-icon>videocam</mat-icon>
+                    Add Video
+
+                    </button>
+
+                    <button
+                    mat-stroked-button
+                    (click)="addLesson(section.id, 'article')">
+
+                    <mat-icon>article</mat-icon>
+                    Add Article
+
+                    </button>
+
+                </div>
+
+                </div>
+
+                <!-- Add Section -->
+                <button
+                mat-stroked-button
+                class="add-section-btn"
+                (click)="addSection()">
+
+                <mat-icon>add</mat-icon>
+                Add New Section
+
+                </button>
+
+            </mat-card-content>
+
+            </mat-card>
+
+        </mat-tab>
+      }
+
+
+      <!-- Pricing -->
+      <mat-tab label="Pricing">
+
+          <mat-card class="section-card">
+
+          <mat-card-header>
+              <mat-card-title>Course Pricing</mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content>
+
+              <mat-form-field  class="price-field">
+
+              <mat-label>Course Price</mat-label>
+
+              <span matTextPrefix>$&nbsp;</span>
+
+              <input
+                  matInput
+                  type="number"
+                  formControlName="price">
+
+              </mat-form-field>
+
+              <div class="tips-box">
+
+              <h4>Pricing Tips</h4>
+
+              <ul>
+                  <li>Research similar courses</li>
+                  <li>Most courses range from $49 - $199</li>
+                  <li>You can add discounts later</li>
+              </ul>
+
+              </div>
+
+          </mat-card-content>
+
+          </mat-card>
+
+      </mat-tab>
+
+      </mat-tab-group>
+
+  </div>
+</form>

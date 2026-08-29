@@ -23,3 +23,13 @@ export interface Course {
   category: Category;
   sections: Section[];
 }
+
+export interface CreateCourseRequest {
+  title: string;
+  image: File | undefined;
+  level: number;
+  price: number;
+  categoryId: string;
+  description: string;
+}
+
