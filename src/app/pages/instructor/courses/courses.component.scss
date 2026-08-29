@@ -1,0 +1,31 @@
+table{
+      width:100%;
+    }
+
+    .course-cell{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .course-cell img{
+      width:80px;
+      height:50px;
+      object-fit:cover;
+      border-radius:10px;
+    }
+
+    .rating-cell{
+      display:flex;
+      align-items:center;
+      gap:4px;
+    }
+
+    .rating-cell mat-icon{
+      color:#facc15;
+    }
+
+    .actions{
+      display:flex;
+      gap:4px;
+    }
