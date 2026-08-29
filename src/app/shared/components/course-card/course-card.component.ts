@@ -1,9 +1,10 @@
-import { Component, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { MaterialModule } from "../../material.module";
 import { MatDivider } from "@angular/material/divider";
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Course } from '../../../core/models/courses/course';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-course-card',
@@ -11,7 +12,8 @@ import { Course } from '../../../core/models/courses/course';
     MaterialModule,
     MatDivider,
     CommonModule,
-    RouterLink
+    RouterLink,
+    MatProgressBarModule,
   ],
   templateUrl: './course-card.component.html',
   styleUrl: './course-card.component.scss',
@@ -19,4 +21,9 @@ import { Course } from '../../../core/models/courses/course';
 export class CourseCardComponent {
   course = input.required<Course>();
   navigateTo = input<string>();
+  courseImage = computed(() => {
+    if(this.course().imageUrl === null)
+      return 'public/course-default-image.png';
+    return `http://localhost:5050/${this.course().imageUrl}`
+  })
 }

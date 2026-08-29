@@ -1,41 +1,170 @@
-<div class="w-70 h-95 shadow-md border border-transparent rounded-lg overflow-hidden cursor-pointer">
-  <div>
-    <img class="w-70 h-40 object-fill" [src]="`http://localhost:5050/${course().imageUrl}`" [alt]="course().title" [routerLink]="navigateTo() ?? ['/course', course().id]" />
-  </div>
-  <div class="p-4" (click)="$event.stopPropagation()" [routerLink]="navigateTo() ?? ['/course', course().id]">
-    <h2 class="font-medium text-md line-clamp-2 leading-6 min-h-[3rem]">{{ course().title }}</h2>
-    <span class="text-gray-400">{{ course().instructor }}</span>
-    <div class="flex text-sm gap-5 my-2">
-      <div class="flex items-center">
-        <mat-icon>star</mat-icon>
-        <span>{{ course().rating }} ({{ course().reviewsCount | number }})</span>
+<a
+      [routerLink]="['/courses', course().id]"
+      class="group block"
+    >
+      <div
+        class="overflow-hidden rounded-2xl border !border-slate-200 !bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:border-slate-800 dark:bg-slate-900"
+      >
+
+        <!-- Image -->
+        <div class="relative aspect-video overflow-hidden !bg-slate-100 dark:!bg-slate-800">
+          <img
+            [src]="courseImage()"
+            [alt]="course().title"
+            class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+
+          <!-- Category -->
+          <div
+            class="absolute left-3 top-3 rounded-full bg-indigo-600 px-3 py-1 text-xs font-semibold text-white shadow"
+          >
+            {{ course().category.name }}
+          </div>
+
+          <!-- Enrolled -->
+          @if (course().isEnrolled) {
+            <div
+              class="absolute right-3 top-3 rounded-full bg-emerald-500 px-3 py-1 text-xs font-semibold text-white shadow"
+            >
+              Enrolled
+            </div>
+          }
+        </div>
+
+        <!-- Content -->
+        <div class="p-5">
+
+          <!-- Title -->
+          <h3
+            class="mb-2 line-clamp-2 leading-6 min-h-[3rem] text-lg font-bold !text-slate-900 transition-colors group-hover:text-indigo-600 dark:text-white dark:group-hover:text-indigo-400"
+          >
+            {{ course().title }}
+          </h3>
+
+          <!-- Instructor -->
+          <p class="mb-4 text-sm text-slate-500 dark:text-slate-400">
+            By {{ course().instructor }}
+          </p>
+
+          <!-- Stats -->
+          <div class="mb-4 flex flex-wrap items-center gap-4 text-sm">
+
+            <!-- Rating -->
+            <div class="flex items-center gap-1 text-amber-500">
+              <mat-icon class="!h-4 !w-4 !text-base">star</mat-icon>
+
+              <span class="font-semibold text-slate-800 dark:text-slate-200">
+                {{ course().rating.toFixed(1) }}
+              </span>
+
+              <span class="text-slate-500 dark:text-slate-400">
+                ({{ course().reviewsCount.toLocaleString() }})
+              </span>
+            </div>
+
+            <!-- Students -->
+            <div class="flex items-center gap-1 text-slate-500 dark:text-slate-400">
+              <mat-icon class="!h-4 !w-4 !text-base">group</mat-icon>
+
+              <span>
+                {{ course().studentsCount.toLocaleString() }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Course Info -->
+          <div
+            class="mb-5 flex items-center justify-between rounded-xl !bg-slate-50 px-4 py-3 dark:bg-slate-800/60"
+          >
+
+            <!-- Duration -->
+            <div class="flex items-center gap-2">
+              <div
+                class="flex h-10 w-10 items-center justify-center rounded-lg !bg-blue-100 !text-blue-600 dark:bg-blue-500/20 dark:text-blue-400"
+              >
+                <mat-icon class="!h-5 !w-5 !text-base">schedule</mat-icon>
+              </div>
+
+              <div>
+                <p class="text-xs !text-slate-500 dark:text-slate-400">
+                  Duration
+                </p>
+
+                <p class="text-sm font-semibold text-slate-800 dark:text-slate-200">
+                  {{ course().duration }}
+                </p>
+              </div>
+            </div>
+
+            <!-- Level -->
+            <div class="flex items-center gap-2">
+              <div
+                class="flex h-10 w-10 items-center justify-center rounded-lg !bg-violet-100 !text-violet-600 dark:bg-violet-500/20 dark:text-violet-400"
+              >
+                <mat-icon class="!h-5 !w-5 !text-base">bar_chart</mat-icon>
+              </div>
+
+              <div>
+                <p class="text-xs !text-slate-500 dark:text-slate-400">
+                  Level
+                </p>
+
+                <p class="text-sm font-semibold !text-slate-800 dark:text-slate-200">
+                  {{ course().level }}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Progress -->
+          @if (course().isEnrolled) {
+            <div class="mb-5">
+              <div class="mb-2 flex items-center justify-between">
+                <span class="text-xs font-medium text-slate-500 dark:text-slate-400">
+                  Progress
+                </span>
+
+                <span class="text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+                  50%
+                </span>
+              </div>
+
+              <mat-progress-bar
+                mode="determinate"
+                [value]="50"
+                class="rounded-full"
+              >
+              </mat-progress-bar>
+            </div>
+          }
+
+          <!-- Footer -->
+          <div
+            class="flex items-center justify-between border-t border-slate-200 pt-4 dark:border-slate-800"
+          >
+
+            <!-- Price -->
+            <div>
+              <p class="text-xs text-slate-500 dark:text-slate-400">
+                Price
+              </p>
+
+              <h4
+                class="text-2xl font-extrabold text-indigo-600 dark:text-indigo-400"
+              >
+                ${{ course().price }}
+              </h4>
+            </div>
+
+            <!-- Button -->
+            <button
+              mat-flat-button
+              color="primary"
+              class="!rounded-xl"
+            >
+              View Course
+            </button>
+          </div>
+        </div>
       </div>
-      <div class="flex items-center">
-        <mat-icon>supervisor_account</mat-icon>
-        <span>{{ course().studentsCount | number}}</span>
-      </div>
-    </div>
-    <div class="flex text-sm mb-4 gap-5">
-      <div class="flex items-center">
-        <mat-icon>access_time</mat-icon>
-        <span>{{ course().duration }}</span>
-      </div>
-      <div class="flex items-center">
-        <mat-icon>equalizer</mat-icon>
-        <span>{{ course().level }}</span>
-      </div>
-    </div>
-    <ng-content></ng-content>
-    <mat-divider></mat-divider>
-    @if(!course().isEnrolled) {
-      <div class="flex mt-3 justify-between">
-        <span>{{course().price | currency }}</span>
-        <span>{{ course().level }}</span>
-      </div>
-    }@else {
-      <div class="mt-1 flex flex-col">
-        <button matButton (click)="$event.stopPropagation()" [routerLink]="`/course/${course().id}/content`">Course Content</button>
-      </div>
-    }
-  </div>
-</div>
+    </a>
