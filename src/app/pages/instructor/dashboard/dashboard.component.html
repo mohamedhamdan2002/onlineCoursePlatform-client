@@ -1,0 +1,117 @@
+<!-- Stats -->
+ <div class="stats-grid">
+
+  <mat-card class="stat-card">
+
+    <div class="stat-header">
+
+      <div>
+        <p>Total Students</p>
+        <h2>{{ totalStudents | number }}</h2>
+      </div>
+
+      <div class="stat-icon blue">
+        <mat-icon>groups</mat-icon>
+      </div>
+
+    </div>
+
+    <span class="success-text">+12.5% from last month</span>
+
+  </mat-card>
+
+  <mat-card class="stat-card">
+
+    <div class="stat-header">
+
+      <div>
+        <p>Total Revenue</p>
+        <h2>\${{ totalRevenue | number }}</h2>
+      </div>
+
+      <div class="stat-icon green">
+        <mat-icon>payments</mat-icon>
+      </div>
+
+    </div>
+
+    <span class="success-text">+18.2% from last month</span>
+
+  </mat-card>
+
+  <mat-card class="stat-card">
+
+    <div class="stat-header">
+
+      <div>
+        <p>Published Courses</p>
+        <h2>{{ publishedCourses }}</h2>
+      </div>
+
+      <div class="stat-icon purple">
+        <mat-icon>menu_book</mat-icon>
+      </div>
+
+    </div>
+
+    <span>{{ draftCourses }} Draft Courses</span>
+
+  </mat-card>
+
+  <mat-card class="stat-card">
+
+    <div class="stat-header">
+
+      <div>
+        <p>Average Rating</p>
+        <h2>{{ averageRating }}</h2>
+      </div>
+
+      <div class="stat-icon orange">
+        <mat-icon>star</mat-icon>
+      </div>
+
+    </div>
+
+    <div class="stars">
+
+      <mat-icon *ngFor="let star of stars">
+        star
+      </mat-icon>
+
+    </div>
+
+  </mat-card>
+
+</div>
+
+<!-- Quick Actions -->
+<mat-card class="quick-actions-card">
+
+  <h2>Quick Actions</h2>
+
+  <div class="quick-actions-grid">
+
+    <button mat-raised-button color="primary">
+      <mat-icon>add</mat-icon>
+      Create Course
+    </button>
+
+    <button mat-stroked-button>
+      <mat-icon>groups</mat-icon>
+      View Students
+    </button>
+
+    <button mat-stroked-button>
+      <mat-icon>analytics</mat-icon>
+      View Analytics
+    </button>
+
+    <button mat-stroked-button>
+      <mat-icon>payments</mat-icon>
+      Payouts
+    </button>
+
+  </div>
+
+</mat-card>
