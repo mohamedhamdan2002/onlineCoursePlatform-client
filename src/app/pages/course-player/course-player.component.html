@@ -1,0 +1,301 @@
+<div class="h-screen flex flex-col bg-background overflow-hidden">
+
+  <!-- HEADER -->
+  <header class="bg-card border-b px-4 py-3 flex items-center justify-between z-10">
+
+    <div class="flex items-center gap-4">
+
+      <button mat-icon-button (click)="toggleSidebar()">
+        <mat-icon>
+          {{ showSidebar() ? 'close' : 'menu' }}
+        </mat-icon>
+      </button>
+
+      <a
+        class="flex items-center gap-2 hover:text-primary"
+        [routerLink]="['/course']">
+
+        <mat-icon>chevron_left</mat-icon>
+        <span class="hidden sm:inline">Back to Course</span>
+
+      </a>
+
+    </div>
+
+    <div class="flex-1 max-w-xl mx-4 hidden md:block">
+
+      <h1 class="font-semibold truncate">
+        {{ courseData.title }}
+      </h1>
+
+      <div class="flex items-center gap-2 mt-1">
+
+        <mat-progress-bar
+          [value]="overallProgress()"
+          class="h-1.5">
+        </mat-progress-bar>
+
+        <span class="text-xs text-gray-500 whitespace-nowrap">
+          {{ overallProgress() | number:'1.0-0' }}% complete
+        </span>
+
+      </div>
+
+    </div>
+
+    <button mat-stroked-button routerLink="/student/dashboard">
+      My Courses
+    </button>
+
+  </header>
+
+  <!-- MAIN -->
+  <div class="flex-1 flex overflow-hidden">
+
+    <!-- LEFT CONTENT -->
+    <div class="flex-1 flex flex-col overflow-auto">
+
+      <!-- VIDEO -->
+      <div class="bg-black">
+
+        <div class="max-w-5xl mx-auto">
+
+          <div class="aspect-video bg-slate-900 relative group">
+
+            <!-- VIDEO PLACEHOLDER -->
+            <div class="absolute inset-0 flex items-center justify-center">
+
+              <div class="text-center">
+
+                <div class="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <mat-icon class="text-white text-3xl">
+                    play_arrow
+                  </mat-icon>
+                </div>
+
+                <p class="text-white/80">Video Player</p>
+
+                <p class="text-white/60 text-sm mt-1">
+                  {{ currentLectureData()?.title }}
+                </p>
+
+              </div>
+
+            </div>
+
+            <!-- CONTROLS -->
+            <div
+              class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 opacity-0 group-hover:opacity-100">
+
+              <!-- PROGRESS -->
+              <div class="mb-4">
+                <mat-progress-bar
+                  [value]="videoProgress()"
+                  class="h-1 cursor-pointer">
+                </mat-progress-bar>
+              </div>
+
+              <!-- BUTTONS -->
+              <div class="flex items-center justify-between">
+
+                <div class="flex items-center gap-3">
+
+                  <button mat-icon-button (click)="togglePlay()">
+                    <mat-icon class="text-white">
+                      {{ isPlaying() ? 'pause' : 'play_arrow' }}
+                    </mat-icon>
+                  </button>
+
+                  <button mat-icon-button>
+                    <mat-icon class="text-white">volume_up</mat-icon>
+                  </button>
+
+                  <span class="text-white text-sm">
+                    2:45 / {{ currentLectureData()?.duration }}
+                  </span>
+
+                </div>
+
+                <div class="flex items-center gap-2">
+
+                  <button mat-icon-button>
+                    <mat-icon class="text-white">settings</mat-icon>
+                  </button>
+
+                  <button mat-icon-button>
+                    <mat-icon class="text-white">fullscreen</mat-icon>
+                  </button>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- NAVIGATION -->
+      <div class="bg-card border-b">
+
+        <div class="max-w-5xl mx-auto px-4 py-3 flex justify-between">
+
+          <button
+            mat-stroked-button
+            (click)="prev()"
+            [disabled]="!hasPrevious">
+
+            <mat-icon>chevron_left</mat-icon>
+            Previous
+
+          </button>
+
+          <button
+            mat-flat-button
+            color="primary"
+            (click)="next()"
+            [disabled]="!hasNext">
+
+            Next
+            <mat-icon>chevron_right</mat-icon>
+
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- TABS -->
+      <div class="flex-1">
+
+        <div class="max-w-5xl mx-auto p-4">
+
+          <mat-tab-group>
+
+            <!-- OVERVIEW -->
+            <mat-tab label="Overview">
+
+              <h2 class="text-2xl font-semibold mb-2">
+                {{ currentLectureData()?.title }}
+              </h2>
+
+              <p class="text-gray-600">
+                In this lecture you'll learn fundamentals and best practices.
+              </p>
+
+              <div class="bg-card p-6 rounded-lg border mt-4">
+
+                <h3 class="font-semibold mb-3">Resources</h3>
+
+                <a class="block text-primary">📄 Lecture Notes.pdf</a>
+                <a class="block text-primary">💻 Source Code.zip</a>
+                <a class="block text-primary">🔗 Resources</a>
+
+              </div>
+
+            </mat-tab>
+
+            <!-- NOTES -->
+            <mat-tab label="Notes">
+
+              <textarea
+                class="w-full min-h-[200px] p-3 border rounded"
+                placeholder="Take notes...">
+              </textarea>
+
+              <button mat-raised-button color="primary" class="mt-3">
+                Save Notes
+              </button>
+
+            </mat-tab>
+
+            <!-- Q&A -->
+            <mat-tab label="Q&A">
+
+              <textarea
+                class="w-full min-h-[100px] p-3 border rounded mb-3"
+                placeholder="Ask question...">
+              </textarea>
+
+              <button mat-raised-button color="primary">
+                Post Question
+              </button>
+
+            </mat-tab>
+
+          </mat-tab-group>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside
+      *ngIf="showSidebar()"
+      class="w-full md:w-96 bg-card border-l flex flex-col">
+
+      <div class="p-4 border-b">
+
+        <h2 class="font-semibold">Course Content</h2>
+
+        <div class="text-xs text-gray-500 mt-1">
+          {{ allLectures().length }} lectures •
+          {{ overallProgress() | number:'1.0-0' }}%
+        </div>
+
+      </div>
+
+      <div class="flex-1 overflow-auto">
+
+        <mat-accordion>
+
+          @for (section of courseData.sections; track section.title) {
+
+            <mat-expansion-panel>
+
+              <mat-expansion-panel-header>
+                {{ section.title }}
+              </mat-expansion-panel-header>
+
+              @for (lecture of section.lectures; track lecture.id) {
+
+                <div
+                  (click)="selectLecture(lecture.id)"
+                  class="flex items-center gap-3 p-3 cursor-pointer hover:bg-gray-100"
+                  [class.bg-blue-50]="lecture.id === currentLecture()">
+
+                  <mat-icon>
+                    {{ lecture.completed ? 'check_circle' : 'radio_button_unchecked' }}
+                  </mat-icon>
+
+                  <div>
+                    <div class="text-sm font-medium">
+                      {{ lecture.title }}
+                    </div>
+                    <div class="text-xs text-gray-500">
+                      {{ lecture.duration }}
+                    </div>
+                  </div>
+
+                </div>
+
+              }
+
+            </mat-expansion-panel>
+
+          }
+
+        </mat-accordion>
+
+      </div>
+
+    </aside>
+
+  </div>
+
+</div>
