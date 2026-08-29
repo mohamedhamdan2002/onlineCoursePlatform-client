@@ -1,0 +1,77 @@
+<footer class="bg-gray-50 border-t border-gray-200 mt-auto">
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+
+      <!-- Brand -->
+      <div>
+
+        <a routerLink="/" class="flex items-center gap-2 mb-4">
+          <div class="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center">
+            <mat-icon class="text-white">menu_book</mat-icon>
+          </div>
+          <span class="font-bold text-xl text-gray-900">LearnHub</span>
+        </a>
+
+        <p class="text-sm text-gray-600 mb-4">
+          Empowering learners worldwide with high-quality online education.
+        </p>
+
+        <!-- Social -->
+        <div class="flex gap-3">
+
+          @for (social of socials; track social.icon) {
+            <a href="#"
+               class="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center
+                      hover:bg-indigo-600 hover:text-white transition">
+
+              <mat-icon class="text-sm">
+                {{ social.icon }}
+              </mat-icon>
+
+            </a>
+          }
+
+        </div>
+      </div>
+
+      <!-- Sections -->
+      @for (section of footerLinks; track section.title) {
+
+        <div>
+          <h3 class="font-semibold mb-4 text-gray-900">
+            {{ section.title }}
+          </h3>
+
+          <ul class="space-y-2">
+
+            @for (link of section.links; track link.label) {
+              <li>
+                <a
+                  [routerLink]="link.url"
+                  class="text-sm text-gray-600 hover:text-indigo-600 transition">
+
+                  {{ link.label }}
+                </a>
+              </li>
+            }
+
+          </ul>
+        </div>
+
+      }
+
+    </div>
+
+    <!-- Bottom -->
+    <div class="mt-12 pt-8 border-t border-gray-200">
+
+      <p class="text-center text-sm text-gray-500">
+        © 2026 LearnHub. All rights reserved.
+      </p>
+
+    </div>
+
+  </div>
+</footer>
