@@ -2,15 +2,24 @@ import { computed, effect, inject } from "@angular/core";
 import { patchState, signalMethod, signalStore, withComputed, withHooks, withMethods, withState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { CategoryService } from "../../core/services/category.service";
-import { pipe, switchMap, tap } from "rxjs";
+import { debounceTime, pipe, switchMap, tap } from "rxjs";
 import { CourseService } from "../../core/services/course.service";
 import { ToasterService } from "../../core/services/toaster.service";
-import { Category, Course } from "../models/courses/course";
+import { Category, Course, CreateCourseRequest } from "../models/courses/course";
 import { CoursePageList } from "../models/courses/course-page-list";
+import { CourseFilter } from "../../shared/components/filter-sidebar/filter-sidebar.component";
+
+export type CourseLevel = {
+  value: number,
+  name: string
+}
 export interface CourseState {
   categories: Category[],
+  levels: CourseLevel[]
   courses: CoursePageList;
-  selectedCategoriesIds: string[];
+  courseFilters: CourseFilter;
+  searchQuery: string | null;
+  sortBy: string | null;
   page: number,
   pageSize: number,
   selectedCourseId: string | undefined;
@@ -25,8 +34,11 @@ export const CourseStore = signalStore(
   },
   withState<CourseState>({
     categories: [],
+    levels: [],
     courses: {} as CoursePageList,
-    selectedCategoriesIds: [],
+    courseFilters: {} as CourseFilter,
+    searchQuery: null,
+    sortBy: null,
     page: 1,
     pageSize: 10,
     selectedCourseId: undefined,
@@ -35,12 +47,12 @@ export const CourseStore = signalStore(
     isWishlistLoaded: false
   } as CourseState
   ),
-  withComputed(({courses, selectedCategoriesIds, wishlistCourses}) => ({
-    filteredCourses: computed(()=>{
-      if(!selectedCategoriesIds().length) return courses();
-      // courses().pageItems.filter(course => selectedCategoriesIds().includes(course.category.id))
-      return courses();
-    }),
+  withComputed(({courses, wishlistCourses}) => ({
+    // filteredCourses: computed(()=>{
+    //   if(!selectedCategoriesIds().length) return courses();
+    //   // courses().pageItems.filter(course => selectedCategoriesIds().includes(course.category.id))
+    //   return courses();
+    // }),
     wishlistCount: computed(() => wishlistCourses().size),
   })),
   withMethods((store, toaster = inject(ToasterService), categoryService = inject(CategoryService), courseService = inject(CourseService))=> ({
@@ -52,21 +64,41 @@ export const CourseStore = signalStore(
         })
       )
     ),
+    loadLevels: rxMethod<void>(
+      pipe(
+        switchMap(() => courseService.getCourseLevels()),
+        tap(res => {
+          patchState(store, { levels: res })
+        })
+      )
+    ),
     loadCoursePageList: rxMethod<void>(
       pipe(
+        debounceTime(300),
         switchMap(() =>
           courseService.getAllCourses(
             store.page(),
             store.pageSize(),
-            store.selectedCategoriesIds().join(',')
+            store.courseFilters().categories?.join(','),
+            store.courseFilters().levels?.join(','),
+            store.courseFilters().priceRange,
+            store.courseFilters().minRating,
+            store.searchQuery(),
+            store.sortBy()
           )),
         tap(res => {
           patchState(store, { courses: res })
         })
       )
     ),
-    setSelectedCategoriesId: (categoriesId: string[]) => {
-      patchState(store, { selectedCategoriesIds: categoriesId, page: 1 })
+    setCourseFilters: (courseFilters: CourseFilter) => {
+      patchState(store, { courseFilters: courseFilters, page: 1 })
+    },
+    setSearchQuery: (searchQuery: string) => {
+      patchState(store, { searchQuery: searchQuery, page: 1 })
+    },
+    setSortBy: (sortBy: string) => {
+      patchState(store, { sortBy: sortBy, page: 1 })
     },
     setPage(pageNumber: number) {
       patchState(store, { page: pageNumber });
@@ -86,6 +118,15 @@ export const CourseStore = signalStore(
         tap(res => {
           patchState(store, { selectedCourse: res })
         })
+      )
+    ),
+    createCourse: rxMethod<CreateCourseRequest>(
+      pipe(
+        switchMap((request) =>
+          courseService.createCourse(
+            request
+          ))
+
       )
     ),
     addToWishlist(course: Course) {
