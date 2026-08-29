@@ -1,82 +1,82 @@
-<div class="mt-10 p-5 border border-gray-300 rounded-md">
-  <h1 class="text-2xl mb-2 font-bold">What you'll learn</h1>
-  <div class="grid sm:grid-cols-2 gap-4">
-    <div class="flex gap-5">
-      <mat-icon>check_circle_outline</mat-icon>
-      <span>Build responsive websites using HTML5, CSS3, and JavaScript</span>
-    </div>
-    <div class="flex gap-2">
-      <mat-icon>check_circle_outline</mat-icon>
-      <span>Build responsive websites using HTML5, CSS3, and JavaScript</span>
-    </div>
-    <div class="flex gap-2">
-      <mat-icon>check_circle_outline</mat-icon>
-      <span>Build responsive websites using HTML5, CSS3, and JavaScript</span>
-    </div>
-    <div class="flex gap-2">
-      <mat-icon>check_circle_outline</mat-icon>
-      <span>Build responsive websites using HTML5, CSS3, and JavaScript</span>
-    </div>
-    <div class="flex gap-2">
-      <mat-icon>check_circle_outline</mat-icon>
-      <span>Build responsive websites using HTML5, CSS3, and JavaScript</span>
-    </div>
-    <div class="flex gap-2">
-      <mat-icon>check_circle_outline</mat-icon>
-      <span>Build responsive websites using HTML5, CSS3, and JavaScript</span>
-    </div>
-    <div class="flex gap-2">
-      <mat-icon>check_circle_outline</mat-icon>
-      <span>Build responsive websites using HTML5, CSS3, and JavaScript</span>
-    </div>
-    <div class="flex gap-2">
-      <mat-icon>check_circle_outline</mat-icon>
-      <span>Build responsive websites using HTML5, CSS3, and JavaScript</span>
-    </div>
-    <div class="flex gap-2">
-      <mat-icon>check_circle_outline</mat-icon>
-      <span>Build responsive websites using HTML5, CSS3, and JavaScript</span>
-    </div>
-    <div class="flex gap-2">
-      <mat-icon>check_circle_outline</mat-icon>
-      <span>Build responsive websites using HTML5, CSS3, and JavaScript</span>
+<div class="py-6 space-y-8">
+  <!-- Learn -->
+  <div class="bg-white rounded-xl border p-6">
+    <h2 class="text-2xl font-semibold mb-4">
+      What you'll learn
+    </h2>
+
+    <div class="grid sm:grid-cols-2 gap-3">
+      @for (item of learnItems; track item) {
+        <div class="flex gap-2">
+          <mat-icon class="text-green-600">
+            check_circle
+          </mat-icon>
+
+          <span class="text-sm">
+            {{ item }}
+          </span>
+        </div>
+      }
     </div>
   </div>
-</div>
-<div class="mt-10">
-  <h1 class="text-2xl font-bold mb-2">Description</h1>
-  <p class="text-gray-500 leading-8">
-    <span class="mb-2 block">This comprehensive course will take you from zero to hero in web development. You'll learn everything you need to build professional, modern websites and web applications.</span>
-    <span class="block">Perfect for beginners with no prior experience, this course covers all the essential technologies and best practices used by professional web developers today.</span>
-  </p>
-</div>
-  <div class="mt-10">
-  <h1 class="text-2xl font-bold mb-2">Requirements</h1>
-  <ul class="text-gray-500 leading-8">
-    <li>- A computer with internet connection</li>
-    <li>- No prior programming experience needed</li>
-    <li>- Willingness to learn and practice</li>
-  </ul>
-</div>
-<div class="my-10">
-  <h1 class="text-2xl font-bold mb-2">Instructor</h1>
-  <div class="flex gap-4 p-4 border border-gray-300 rounded-md">
-    <div>
-    <img class="w-20 h-20 border rounded-full" src="https://i.sstatic.net/l60Hf.png" alt="Sara Johnson">
+
+  <!-- Description -->
+  <div>
+    <h2 class="text-2xl font-semibold mb-4">
+      Description
+    </h2>
+
+    <p class="text-gray-600 leading-7">
+      This course helps you master modern web development
+      technologies from beginner to advanced level with
+      practical projects and hands-on exercises.
+    </p>
   </div>
-  <div class="flex flex-col">
-    <h2 class="text-xl font-medium">Sara Johnson</h2>
-    <span class="text-gray-500">Full Stack Developer & Educator</span>
-    <div class="flex text-gray-500 gap-6">
-      <div class="flex items-center">
-        <mat-icon class="!text-yellow-500">star</mat-icon>
-        <span>5.5 Instructor Rating</span>
+
+  <!-- Instructor -->
+  <div>
+    <h2 class="text-2xl font-semibold mb-4">
+      Instructor
+    </h2>
+
+    <div class="bg-white rounded-xl border p-6">
+      <div class="flex items-start gap-4">
+        <img
+          src="https://i.pravatar.cc/150?img=1"
+          alt="Instructor"
+          class="w-20 h-20 rounded-full object-cover"
+        />
+
+        <div>
+          <h3 class="text-lg font-semibold">
+            {{ course()?.instructor }}
+          </h3>
+
+          <p class="text-gray-500 mb-3">
+            Full Stack Developer & Educator
+          </p>
+
+          <div class="flex flex-wrap gap-4 text-sm text-gray-500">
+            <div class="flex items-center gap-1">
+              <mat-icon class="text-yellow-400">
+                star
+              </mat-icon>
+
+              <span>4.8 Instructor Rating</span>
+            </div>
+
+            <div class="flex items-center gap-1">
+              <mat-icon>groups</mat-icon>
+              <span>125,000 Students</span>
+            </div>
+
+            <div class="flex items-center gap-1">
+              <mat-icon>play_circle</mat-icon>
+              <span>12 Courses</span>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="flex items-center">
-        <mat-icon>supervisor_account</mat-icon>
-        <span>50,000</span>
-      </div>
     </div>
-  </div>
   </div>
 </div>
