@@ -1,0 +1,89 @@
+<div class="bg-white rounded-lg border border-gray-200 p-6 sticky top-20">
+
+  <h3 class="font-semibold mb-4 text-gray-900">Filters</h3>
+
+  <!-- CATEGORY -->
+  <div class="mb-6">
+    <h4 class="text-sm font-medium mb-3 text-gray-700">Category</h4>
+
+    <div class="space-y-3">
+      <app-filter-list-item [items]="filters().categories" [itemValue]="'id'" [itemName]="'name'" (selectedItems)="onCategoriesChanges($event)"/>
+    </div>
+  </div>
+
+  <div class="my-6 border-t border-gray-200"></div>
+
+  <!-- LEVEL -->
+  <div class="mb-6">
+    <h4 class="text-sm font-medium mb-3 text-gray-700">Level</h4>
+
+    <div class="space-y-3">
+        <app-filter-list-item [items]="filters().levels" [itemValue]="'name'" [itemName]="'name'" (selectedItems)="onLevelChanges($event)"/>
+    </div>
+  </div>
+
+  <div class="my-6 border-t border-gray-200"></div>
+
+  <!-- PRICE RANGE -->
+  <div class="mb-6">
+    <h4 class="text-sm font-medium mb-3 text-gray-700">Price Range</h4>
+
+    <div class="px-2">
+
+      <mat-slider [min]="filters().priceRange[0]" [max]="filters().priceRange[1]" step="10" class="w-full">
+        <input
+          matSliderStartThumb
+          [value]="filters().priceRange[0]"
+          (valueChange)="onMinPriceChange($event)">
+        <input
+          matSliderEndThumb
+          [value]="filters().priceRange[1]"
+          (valueChange)="onMaxPriceChange($event)">
+      </mat-slider>
+
+      <div class="flex justify-between text-sm text-gray-500 mt-2">
+        <span>${{ filters().priceRange[0] }}</span>
+        <span>${{ filters().priceRange[1] }}</span>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="my-6 border-t border-gray-200"></div>
+
+  <!-- RATING -->
+  <div>
+    <h4 class="text-sm font-medium mb-3 text-gray-700">Minimum Rating</h4>
+
+    <div class="space-y-2">
+      <mat-radio-group
+        [value]="filters().minRating"
+        (change)="setRating($event.value)"
+        class="flex flex-col"
+      >
+          <mat-radio-button [value]="null" class="p-2">
+            <div class="flex items-center gap-1">
+              <mat-icon class="text-yellow-400 text-base">star</mat-icon>
+              <span class="text-sm text-gray-700">
+                All ratings
+              </span>
+            </div>
+          </mat-radio-button>
+        @for (rating of ratings; track rating) {
+          <mat-radio-button
+            [value]="rating"
+            class="p-2"
+          >
+            <div class="flex items-center gap-1">
+              <mat-icon class="text-yellow-400 text-base">star</mat-icon>
+              <span class="text-sm text-gray-700">
+                {{ rating }} & up
+              </span>
+            </div>
+          </mat-radio-button>
+        }
+      </mat-radio-group>
+    </div>
+  </div>
+
+</div>
