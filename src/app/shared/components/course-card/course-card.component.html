@@ -1,5 +1,5 @@
 <a
-      [routerLink]="['/courses', course().id]"
+      [routerLink]="navigateTo() == undefined ? ['/courses', course().id] : navigateTo()" [queryParams]="queryParams()"
       class="group block"
     >
       <div
@@ -117,7 +117,7 @@
           </div>
 
           <!-- Progress -->
-          @if (course().isEnrolled) {
+          @if (progress()) {
             <div class="mb-5">
               <div class="mb-2 flex items-center justify-between">
                 <span class="text-xs font-medium text-slate-500 dark:text-slate-400">
@@ -125,13 +125,13 @@
                 </span>
 
                 <span class="text-xs font-semibold text-indigo-600 dark:text-indigo-400">
-                  50%
+                  {{ progress() | number:'1.0-0' }}%
                 </span>
               </div>
 
               <mat-progress-bar
                 mode="determinate"
-                [value]="50"
+                [value]="progress()"
                 class="rounded-full"
               >
               </mat-progress-bar>

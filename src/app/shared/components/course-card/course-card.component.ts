@@ -20,7 +20,9 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 })
 export class CourseCardComponent {
   course = input.required<Course>();
-  navigateTo = input<string>();
+  navigateTo = input<string[]>();
+  queryParams = input<Record<string, any>>();
+  progress = input<number>()
   courseImage = computed(() => {
     if(this.course().imageUrl === null)
       return 'public/course-default-image.png';
