@@ -4,4 +4,5 @@ export interface Lecture {
   videoUrl: string;
   duration: Date;
   isPreview: boolean;
+  isCompleted: boolean;
 }
