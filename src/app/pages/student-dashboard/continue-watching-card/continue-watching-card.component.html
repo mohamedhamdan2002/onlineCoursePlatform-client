@@ -1,0 +1,60 @@
+<div
+  class="bg-white border !border-slate-200 rounded-lg overflow-hidden shadow-sm
+         flex flex-col md:flex-row hover:cursor-pointer"
+  [routerLink]="[
+    '/course-player',
+    enrollment().id
+  ]"
+>
+  <!-- Image -->
+  <div class="md:w-72">
+    <img
+      [src]="
+        'http://localhost:5050/' +
+        enrollment().course.imageUrl
+      "
+      class="w-full h-full object-cover"
+    />
+  </div>
+
+  <!-- Content -->
+  <div class="p-6 flex-1">
+
+    <h3 class="font-semibold text-lg mb-1">
+      {{ enrollment().course.title }}
+    </h3>
+
+    <p class="text-sm text-gray-500 mb-4">
+      by {{ enrollment().course.instructor }}
+    </p>
+
+    <!-- Progress -->
+    <div class="mb-4">
+
+      <div class="flex justify-between text-sm mb-2 text-gray-500">
+        <span>
+          {{ enrollment().progressPercentage | number:'1.0-0' }}%
+        </span>
+
+        <span>
+          {{ enrollment().course.duration }}h
+        </span>
+      </div>
+
+      <mat-progress-bar
+        mode="determinate"
+        [value]="enrollment().progressPercentage"
+      />
+
+    </div>
+
+    <button
+      matButton="filled"
+      class="bg-blue-600 text-white px-4 py-2 rounded"
+      (click)="$event.stopPropagation(); onContinue()"
+    >
+      Continue Learning
+    </button>
+
+  </div>
+</div>

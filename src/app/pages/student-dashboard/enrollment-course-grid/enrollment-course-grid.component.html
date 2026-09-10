@@ -1,0 +1,12 @@
+<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+
+  @for (enrollment of enrollments(); track enrollment.id) {
+
+    <app-enrollment-course-card
+      [enrollment]="enrollment"
+      (selected)="onSelected($event)"
+    />
+
+  }
+
+</div>

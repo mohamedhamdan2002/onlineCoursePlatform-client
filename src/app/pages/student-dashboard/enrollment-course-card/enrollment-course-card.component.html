@@ -1,0 +1,21 @@
+<div class="relative">
+
+  <app-course-card
+    [course]="enrollment().course"
+    [progress]="enrollment().progressPercentage"
+    [navigateTo]="[
+      '/course-player',
+      enrollment().id
+    ]"
+    (click)="selectEnrollment()"
+  />
+
+  @if (enrollment().status === 'Completed') {
+    <div
+      class="absolute top-2 right-2 bg-green-600 text-white text-xs px-2 py-1 rounded"
+    >
+      Completed
+    </div>
+  }
+
+</div>
