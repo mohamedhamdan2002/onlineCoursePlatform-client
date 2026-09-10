@@ -181,7 +181,8 @@ export class CourseFormComponent {
       title: type === 'video' ? 'New Video' : 'New Article',
       duration: new Date(),
       isPreview: true,
-      videoUrl: ''
+      videoUrl: '',
+      isCompleted: false
 
     });
   }
