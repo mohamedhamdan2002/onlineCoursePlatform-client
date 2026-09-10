@@ -1,0 +1,53 @@
+<div class="bg-black">
+  <div class="max-w-5xl mx-auto">
+    <div class="aspect-video bg-slate-900">
+
+      <vg-player class="w-full h-full" onPlayerReady($event)>
+
+        <vg-overlay-play></vg-overlay-play>
+        <vg-buffering></vg-buffering>
+
+        <video
+          #media
+          [vgMedia]="$any(media)"
+          id="course-video"
+          [src]="videoUrl()"
+          preload="auto">
+        </video>
+
+        <vg-controls>
+
+          <!-- Play / Pause -->
+          <vg-play-pause></vg-play-pause>
+
+          <!-- Current time -->
+          <vg-time-display
+            vgProperty="current"
+            vgFormat="mm:ss">
+          </vg-time-display>
+
+          <!-- Progress -->
+          <vg-scrub-bar>
+            <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+            <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+          </vg-scrub-bar>
+
+          <!-- Duration -->
+          <vg-time-display
+            vgProperty="total"
+            vgFormat="mm:ss">
+          </vg-time-display>
+
+          <!-- Volume -->
+          <vg-mute></vg-mute>
+          <vg-volume></vg-volume>
+
+          <!-- Fullscreen -->
+          <vg-fullscreen></vg-fullscreen>
+
+        </vg-controls>
+      </vg-player>
+
+    </div>
+  </div>
+</div>
