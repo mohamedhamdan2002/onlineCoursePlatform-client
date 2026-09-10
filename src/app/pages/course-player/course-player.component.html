@@ -13,7 +13,7 @@
 
       <a
         class="flex items-center gap-2 hover:text-primary"
-        [routerLink]="['/course']">
+        [routerLink]="['/courses']">
 
         <mat-icon>chevron_left</mat-icon>
         <span class="hidden sm:inline">Back to Course</span>
@@ -25,25 +25,25 @@
     <div class="flex-1 max-w-xl mx-4 hidden md:block">
 
       <h1 class="font-semibold truncate">
-        {{ courseData.title }}
+        {{ course().title }}
       </h1>
 
       <div class="flex items-center gap-2 mt-1">
 
         <mat-progress-bar
-          [value]="overallProgress()"
+          [value]="enrollmentStore.selectedEnrollment().progressPercentage"
           class="h-1.5">
         </mat-progress-bar>
 
         <span class="text-xs text-gray-500 whitespace-nowrap">
-          {{ overallProgress() | number:'1.0-0' }}% complete
+          {{ enrollmentStore.selectedEnrollment().progressPercentage | number:'1.0-0' }}% complete
         </span>
 
       </div>
 
     </div>
 
-    <button mat-stroked-button routerLink="/student/dashboard">
+    <button mat-stroked-button routerLink="/student-dashboard">
       My Courses
     </button>
 
@@ -56,13 +56,13 @@
     <div class="flex-1 flex flex-col overflow-auto">
 
       <!-- VIDEO -->
-      <div class="bg-black">
+      <!-- <div class="bg-black">
 
         <div class="max-w-5xl mx-auto">
 
           <div class="aspect-video bg-slate-900 relative group">
 
-            <!-- VIDEO PLACEHOLDER -->
+
             <div class="absolute inset-0 flex items-center justify-center">
 
               <div class="text-center">
@@ -83,11 +83,10 @@
 
             </div>
 
-            <!-- CONTROLS -->
             <div
               class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 opacity-0 group-hover:opacity-100">
 
-              <!-- PROGRESS -->
+
               <div class="mb-4">
                 <mat-progress-bar
                   [value]="videoProgress()"
@@ -95,7 +94,7 @@
                 </mat-progress-bar>
               </div>
 
-              <!-- BUTTONS -->
+
               <div class="flex items-center justify-between">
 
                 <div class="flex items-center gap-3">
@@ -136,8 +135,8 @@
 
         </div>
 
-      </div>
-
+      </div> -->
+      <app-video-player [videoUrl]="`http://localhost:5050/${videoUrl()}`" />
       <!-- NAVIGATION -->
       <div class="bg-card border-b">
 
@@ -146,7 +145,7 @@
           <button
             mat-stroked-button
             (click)="prev()"
-            [disabled]="!hasPrevious">
+            [disabled]="!hasPrevious()">
 
             <mat-icon>chevron_left</mat-icon>
             Previous
@@ -156,10 +155,10 @@
           <button
             mat-flat-button
             color="primary"
-            (click)="next()"
-            [disabled]="!hasNext">
+            (click)="completeAndContinue()"
+            >
 
-            Next
+            Complete and Continue
             <mat-icon>chevron_right</mat-icon>
 
           </button>
@@ -179,7 +178,7 @@
             <mat-tab label="Overview">
 
               <h2 class="text-2xl font-semibold mb-2">
-                {{ currentLectureData()?.title }}
+                <!-- {{ currentLectureData()?.title }} -->
               </h2>
 
               <p class="text-gray-600">
@@ -245,7 +244,7 @@
 
         <div class="text-xs text-gray-500 mt-1">
           {{ allLectures().length }} lectures •
-          {{ overallProgress() | number:'1.0-0' }}%
+          {{ enrollmentStore.selectedEnrollment().progressPercentage | number:'1.0-0' }}%
         </div>
 
       </div>
@@ -254,9 +253,9 @@
 
         <mat-accordion>
 
-          @for (section of courseData.sections; track section.title) {
+          @for (section of course().sections; track section.id) {
 
-            <mat-expansion-panel>
+            <mat-expansion-panel [expanded]="isCurrentSection(section)">
 
               <mat-expansion-panel-header>
                 {{ section.title }}
@@ -265,12 +264,12 @@
               @for (lecture of section.lectures; track lecture.id) {
 
                 <div
-                  (click)="selectLecture(lecture.id)"
+                  (click)="openLectureVideo(lecture)"
                   class="flex items-center gap-3 p-3 cursor-pointer hover:bg-gray-100"
                   [class.bg-blue-50]="lecture.id === currentLecture()">
 
                   <mat-icon>
-                    {{ lecture.completed ? 'check_circle' : 'radio_button_unchecked' }}
+                    {{ lecture.isCompleted ? 'check_circle' : 'radio_button_unchecked' }}
                   </mat-icon>
 
                   <div>

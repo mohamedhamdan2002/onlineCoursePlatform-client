@@ -10,7 +10,7 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/view-course-details/course-content/course-content.component').then(c => c.CourseContentComponent)
   },
   {
-    path: 'course-player',
+    path: 'course-player/:enrollmentId',
     canActivate: [authGuard],
     loadComponent: () => import('./pages/course-player/course-player.component').then(c => c.CoursePlayerComponent)
   },
