@@ -1,3 +1,16 @@
-<app-header />
-<router-outlet/>
-<app-footer />
+<!-- Main Layout -->
+<div class="min-h-screen">
+
+  <!-- Header -->
+  <div class="sticky top-0 z-50 h-16 bg-white">
+    <app-header />
+  </div>
+
+  <!-- Page -->
+  <main>
+    <router-outlet />
+  </main>
+
+  <app-footer />
+
+</div>
