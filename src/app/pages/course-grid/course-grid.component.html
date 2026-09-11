@@ -11,7 +11,7 @@
   </div>
 
   <!-- SEARCH + SORT -->
-  <div class="bg-white border-b !border-slate-200 sticky top-16 z-40">
+  <div class="sticky top-16 z-40 !bg-white border-b !border-slate-200">
     <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row gap-4">
 
       <!-- SEARCH -->
@@ -39,7 +39,7 @@
   </div>
 
   <!-- MAIN -->
-  <div class="max-w-7xl mx-auto px-4 py-8 flex gap-8">
+  <div class="max-w-7xl w-full mx-auto px-4 py-8 flex gap-8">
 
     <!-- SIDEBAR -->
     <aside class="hidden lg:block w-64">
@@ -55,7 +55,36 @@
       <p class="text-gray-500 mb-4">
         Showing {{ store.courses().totalCount }} courses
       </p>
+      <div class="min-h-[700px]">
 
+      @if (store.isLoading()) {
+      <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-6">
+        @for (item of [1,2,3,4,5,6]; track item) {
+          <app-course-card-skeleton/>
+        }
+      </div>
+    }@else if (store.isEmptyResult()) {
+
+      <div class="flex flex-col items-center justify-center py-20 text-center">
+        <div class="mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-slate-100">
+          <mat-icon class="!text-3xl !h-8 !w-8 text-slate-400">
+            search_off
+          </mat-icon>
+        </div>
+
+        <h2 class="mb-2 text-xl font-semibold text-slate-800">
+          No courses found
+        </h2>
+
+        <p class="max-w-md text-slate-500">
+          We couldn't find any courses matching your search or filters.
+          Try changing your search or adjusting the filters.
+        </p>
+
+      </div>
+
+    }
+    @else {
       <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-6">
 
         @for (course of store.courses().pageItems; track course.id) {
@@ -63,6 +92,9 @@
         }
 
       </div>
+    }
+          </div>
+
 
       <app-paginator
         [pageSize]="store.courses().pageSize"

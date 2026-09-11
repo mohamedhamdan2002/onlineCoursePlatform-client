@@ -4,19 +4,25 @@ import { CourseCardComponent } from "../../shared/components/course-card/course-
 import { CourseStore } from '../../core/stores/course.store';
 import { CourseFilter, FilterSidebarComponent } from '../../shared/components/filter-sidebar/filter-sidebar.component';
 import { PaginatorComponent } from '../../shared/components/paginator/paginator.component';
+import { LoadingService } from '../../core/services/loading.service';
+import { CourseCardSkeletonComponent } from '../../shared/components/course-card-skeleton/course-card-skeleton.component';
+import { MatIcon } from '@angular/material/icon';
 @Component({
   selector: 'app-course-grid',
   imports: [
     FormsModule,
     CourseCardComponent,
     PaginatorComponent,
-    FilterSidebarComponent
+    FilterSidebarComponent,
+    CourseCardSkeletonComponent,
+    MatIcon
 ],
   templateUrl: './course-grid.component.html',
   styleUrl: './course-grid.component.scss',
 })
 export class CourseGridComponent implements OnInit {
   store = inject(CourseStore);
+  loadingService = inject(LoadingService);
   filters = computed(() => {
     return {
       categories: this.store.categories(),
