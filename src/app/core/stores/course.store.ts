@@ -2,12 +2,13 @@ import { computed, effect, inject } from "@angular/core";
 import { patchState, signalMethod, signalStore, withComputed, withHooks, withMethods, withState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { CategoryService } from "../../core/services/category.service";
-import { debounceTime, pipe, switchMap, tap } from "rxjs";
+import { debounceTime, finalize, pipe, switchMap, tap } from "rxjs";
 import { CourseService } from "../../core/services/course.service";
 import { ToasterService } from "../../core/services/toaster.service";
 import { Category, Course, CreateCourseRequest } from "../models/courses/course";
 import { CoursePageList } from "../models/courses/course-page-list";
 import { CourseFilter } from "../../shared/components/filter-sidebar/filter-sidebar.component";
+import { CourseDetails } from "../models/courses/course-details";
 
 export type CourseLevel = {
   value: number,
@@ -23,9 +24,10 @@ export interface CourseState {
   page: number,
   pageSize: number,
   selectedCourseId: string | undefined;
-  selectedCourse: Course;
+  selectedCourse: CourseDetails;
   wishlistCourses: Map<string, Course>;
   isWishlistLoaded: boolean;
+  isLoading: boolean;
 }
 
 export const CourseStore = signalStore(
@@ -42,9 +44,10 @@ export const CourseStore = signalStore(
     page: 1,
     pageSize: 10,
     selectedCourseId: undefined,
-    selectedCourse: {} as Course,
+    selectedCourse: {} as CourseDetails,
     wishlistCourses: new Map(),
-    isWishlistLoaded: false
+    isWishlistLoaded: false,
+    isLoading: false
   } as CourseState
   ),
   withComputed(({courses, wishlistCourses}) => ({
@@ -54,6 +57,7 @@ export const CourseStore = signalStore(
     //   return courses();
     // }),
     wishlistCount: computed(() => wishlistCourses().size),
+    isEmptyResult: computed(() => courses().totalCount == 0)
   })),
   withMethods((store, toaster = inject(ToasterService), categoryService = inject(CategoryService), courseService = inject(CourseService))=> ({
     loadCategories: rxMethod<void>(
@@ -75,6 +79,9 @@ export const CourseStore = signalStore(
     loadCoursePageList: rxMethod<void>(
       pipe(
         debounceTime(300),
+         tap(() => {
+            patchState(store, { isLoading: true });
+          }),
         switchMap(() =>
           courseService.getAllCourses(
             store.page(),
@@ -87,7 +94,12 @@ export const CourseStore = signalStore(
             store.sortBy()
           )),
         tap(res => {
-          patchState(store, { courses: res })
+          patchState(store, { courses: res, isLoading: false })
+        }),
+        finalize(() => {
+          patchState(store, {
+            isLoading: false
+          });
         })
       )
     ),

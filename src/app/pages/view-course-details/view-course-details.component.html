@@ -6,12 +6,12 @@
           <!-- Left -->
           <div class="lg:col-span-2">
             <div class="flex items-center gap-2 mb-4">
-              <mat-chip>{{ store.selectedCourse()?.category?.name }}</mat-chip>
+              <mat-chip>{{ store.selectedCourse().course.category.name }}</mat-chip>
               <mat-chip highlighted>Bestseller</mat-chip>
             </div>
 
             <h1 class="text-4xl font-bold mb-4">
-              {{ store.selectedCourse()?.title }}
+              {{ store.selectedCourse().course.title }}
             </h1>
 
             <p class="text-lg text-white/80 mb-6">
@@ -23,21 +23,21 @@
               <div class="flex items-center gap-1">
                 <mat-icon class="text-yellow-400">star</mat-icon>
                 <span class="font-semibold">
-                  {{ store.selectedCourse()?.rating | number : '1.1-1' }}
+                  {{ store.selectedCourse().course.rating | number : '1.1-1' }}
                 </span>
                 <span class="text-white/70">
-                  ({{ store.selectedCourse()?.reviewsCount | number }} reviews)
+                  ({{ store.selectedCourse().course.reviewsCount | number }} reviews)
                 </span>
               </div>
 
               <div class="flex items-center gap-1">
                 <mat-icon>groups</mat-icon>
-                <span>{{ store.selectedCourse()?.studentsCount | number }} students</span>
+                <span>{{ store.selectedCourse().course.studentsCount | number }} students</span>
               </div>
 
               <div class="flex items-center gap-1">
                 <mat-icon>bar_chart</mat-icon>
-                <span>{{ store.selectedCourse()?.level }}</span>
+                <span>{{ store.selectedCourse().course.level }}</span>
               </div>
             </div>
 
@@ -51,7 +51,7 @@
 
               <div>
                 <p class="text-sm text-white/70">Created by</p>
-                <p class="font-semibold">{{ store.selectedCourse()?.instructor }}</p>
+                <p class="font-semibold">{{ store.selectedCourse().course.instructor }}</p>
               </div>
             </div>
 
@@ -63,7 +63,7 @@
 
               <div class="flex items-center gap-1">
                 <mat-icon>schedule</mat-icon>
-                <span>{{ store.selectedCourse()?.duration }}</span>
+                <span>{{ store.selectedCourse().course.duration }}</span>
               </div>
             </div>
           </div>
@@ -74,8 +74,8 @@
               <!-- Image -->
               <div class="relative aspect-video">
                 <img
-                  [src]="store.selectedCourse()?.imageUrl"
-                  [alt]="store.selectedCourse()?.title"
+                  [src]="`http://localhost:5050/${store.selectedCourse().course.imageUrl}`"
+                  [alt]="store.selectedCourse().course.title"
                   class="w-full h-full object-cover"
                 />
 
@@ -94,7 +94,7 @@
               <mat-card-content class="p-6">
                 <div class="flex items-baseline gap-3 mb-4">
                   <span class="text-3xl font-bold text-indigo-600">
-                    ${{ store.selectedCourse()?.price }}
+                    ${{ store.selectedCourse().course.price }}
                   </span>
 
                   <span class="line-through text-gray-400 text-lg">
@@ -102,7 +102,7 @@
                   </span>
                 </div>
 
-                @if (!store.selectedCourse()?.isEnrolled) {
+                @if (!store.selectedCourse().course.isEnrolled) {
                   <button
                     mat-flat-button
                     color="primary"
@@ -124,19 +124,20 @@
                     <div class="flex justify-between text-sm">
                       <span>Course Progress</span>
                       <span class="font-semibold">
-                        {{ progress() }}%
+                        {{ store.selectedCourse().progress.progressPercentage }}%
                       </span>
                     </div>
 
                     <mat-progress-bar
                       mode="determinate"
-                      [value]="progress()"
+                      [value]="store.selectedCourse().progress.progressPercentage"
                     />
 
                     <button
                       mat-flat-button
                       color="primary"
                       class="w-full"
+                      (click)="onContinueWatchingClick(store.selectedCourse().progress.enrollmentId)"
                     >
                       Continue Learning
                     </button>
@@ -147,7 +148,7 @@
                 <div class="mt-6 pt-6 border-t space-y-3 text-sm">
                   <div class="flex items-center gap-2">
                     <mat-icon>schedule</mat-icon>
-                    <span>{{ store.selectedCourse()?.duration }}</span>
+                    <span>{{ store.selectedCourse().course.duration }}</span>
                   </div>
 
                   <div class="flex items-center gap-2">
@@ -181,12 +182,12 @@
             <mat-tab-group>
               <!-- Overview -->
               <mat-tab label="Overview">
-                <app-course-overview [course]="store.selectedCourse()" />
+                <app-course-overview [course]="store.selectedCourse().course" />
               </mat-tab>
 
               <!-- Curriculum -->
               <mat-tab label="Curriculum">
-                <app-course-curriculum [course]="store.selectedCourse()!"/>
+                <app-course-curriculum [course]="store.selectedCourse()!.course"/>
               </mat-tab>
 
               <!-- Reviews -->

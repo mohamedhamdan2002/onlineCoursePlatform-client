@@ -4,6 +4,7 @@ import { CoursePageList } from "../models/courses/course-page-list";
 import { Course, CreateCourseRequest } from "../models/courses/course";
 import { BaseApiService } from "./base-api.service";
 import { CourseLevel } from "../stores/course.store";
+import { CourseDetails } from "../models/courses/course-details";
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,7 @@ export class CourseService extends BaseApiService {
     if(minRating !== null){
       httpParams = httpParams.append("minRating", minRating);
     }
-    
+
     if(searchTerm !== null) {
       httpParams = httpParams.append("searchTerm", searchTerm);
     }
@@ -60,7 +61,7 @@ export class CourseService extends BaseApiService {
 
 
   getCourseById(courseId: string) {
-    return this.http.get<Course>(`${this.baseUrl}/courses/${courseId}`);
+    return this.http.get<CourseDetails>(`${this.baseUrl}/courses/${courseId}`);
   }
 
   createCourse(request: CreateCourseRequest) {

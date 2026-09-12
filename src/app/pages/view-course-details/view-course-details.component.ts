@@ -66,9 +66,9 @@ export class ViewCourseDetailsComponent implements OnInit {
 
   addOrRemoveFromWishlist() {
     if(this.isInWishlist()){
-      this.store.removeFromWishlist(this.store.selectedCourse()!);
+      this.store.removeFromWishlist(this.store.selectedCourse()!.course);
     }else {
-      this.store.addToWishlist(this.store.selectedCourse()!);
+      this.store.addToWishlist(this.store.selectedCourse()!.course);
     }
   }
   onEnrollClick() {
@@ -85,6 +85,9 @@ export class ViewCourseDetailsComponent implements OnInit {
     }
     this.router.navigate(['/checkout', this.courseId()]);
   }
+  onContinueWatchingClick(enrollmentId: string) {
+      this.router.navigate(['/course-player', enrollmentId]);
+    }
   private route = inject(ActivatedRoute);
 
   readonly stars = [1, 2, 3, 4, 5];
